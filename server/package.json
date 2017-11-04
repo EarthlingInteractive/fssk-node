@@ -21,6 +21,7 @@
       "typeorm": "0.1.2"
    },
    "scripts": {
-      "start": "nodemon"
+      "start": "nodemon",
+      "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate -f typeormconfig -n UserRefactoring"
    }
 }
