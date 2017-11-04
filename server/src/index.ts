@@ -32,7 +32,6 @@ const connectionOptions : PostgresConnectionOptions = {
 };
 
 createConnection(connectionOptions).then(async connection => {
-	console.log(connection.options);
 	const user = new User();
 	const userRepository = connection.getRepository(User);
 
