@@ -20,6 +20,6 @@
       "typeorm": "0.1.2"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "ts-node --inspect -r dotenv/config src/index.ts"
    }
 }

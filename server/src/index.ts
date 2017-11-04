@@ -1,20 +1,20 @@
-require('dotenv');
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import {createConnection, ConnectionOptions} from "typeorm";
 import {User} from "./entity/User";
 import * as express from "express";
 import {Request, Response} from "express";
 import * as bodyParser from  "body-parser";
+import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnectionOptions";
 
-createConnection({
+const connectionOptions : PostgresConnectionOptions = {
 	"type": "postgres",
-	"host": "localhost",
-	"port": 5432,
-	"username": "root",
-	"password": "admin",
-	"database": "test",
-	"synchronize": true,
-	"logging": true,
+	"host": process.env["POSTGRES_HOST"],
+	"port": process.env["POSTGRES_PORT"] as any,
+	"username": process.env["POSTGRES_USER"],
+	"password": process.env["POSTGRES_PASSWORD"],
+	"database": process.env["POSTGRES_DATABASE"],
+	"synchronize": process.env["TYPEORM_SYNCHRONIZE"] as any,
+	"logging": process.env["TYPEORM_LOGGING"] as any,
 	"entities": [
 		__dirname + "/entity/*.ts"
 	],
@@ -29,7 +29,9 @@ createConnection({
 		"migrationsDir": "src/migration",
 		"subscribersDir": "src/subscriber"
 	}
-}).then(async connection => {
+};
+
+createConnection(connectionOptions).then(async connection => {
 	console.log(connection.options);
 	const user = new User();
 	const userRepository = connection.getRepository(User);
