@@ -11,9 +11,11 @@
       "body-parser": "~1.18.2",
       "nodemon": "~1.12.1",
       "ts-node": "3.3.0",
+      "tslint": "~5.8.0",
       "typescript": "~2.5.3"
    },
    "dependencies": {
+      "class-validator": "~0.7.3",
       "dotenv": "~4.0.0",
       "express": "~4.16.2",
       "pg": "~7.3.0",
@@ -22,6 +24,7 @@
    },
    "scripts": {
       "start": "nodemon",
-      "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate -f typeormconfig -n UserRefactoring"
+      "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate -f typeormconfig -n UserRefactoring",
+      "lint": "tslint src/**/*.ts{,x}"
    }
 }

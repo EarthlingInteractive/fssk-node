@@ -1,18 +1,32 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { IsEmail } from 'class-validator';
+import { Todo } from './Todo';
 
 @Entity()
 export class User {
 
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn('uuid')
 	id: number;
 
-	@Column()
+	@Column({ unique: true })
+	@IsEmail()
+	email: string;
+
+	@Column({ nullable: true })
 	firstName: string;
 
-	@Column()
+	@Column({ nullable: true })
 	lastName: string;
 
-	@Column()
-	age: number;
+	@Column({ default: false })
+	isAdmin: boolean;
 
+	@OneToMany(type => Todo, todo => todo.user)
+	todos: Todo[];
+
+	@CreateDateColumn()
+	createdDate: Date;
+
+	@UpdateDateColumn()
+	updatedDate: Date;
 }
