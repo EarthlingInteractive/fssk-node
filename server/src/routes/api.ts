@@ -5,4 +5,4 @@ router.get('/', function (req: express.Request, res: express.Response, next: exp
 	res.json({ hello: 'world!'});
 });
 
-module.exports = router;
+export default router;

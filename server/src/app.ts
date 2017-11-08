@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as bodyParser from  'body-parser';
 import * as mustacheExpress from 'mustache-express';
-import * as api from './routes/api';
+import api from './routes/api';
 const fs = require('fs');
 const path = require('path');
 
@@ -33,7 +33,7 @@ app.get('/', function (req: express.Request, res: express.Response) {
 	res.render('index', { title: 'FSSK', message: 'Hello world!' });
 });
 
-app.use('/api', api);
+app.use('/api/', api);
 
 // catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
