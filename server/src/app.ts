@@ -9,7 +9,7 @@ const fs = require("fs");
 const path = require("path");
 /* tslint:enable */
 
-const environment = process.env.NODE_ENV;
+const environment = process.env["NODE_ENV"];
 
 const app = express();
 
@@ -41,18 +41,31 @@ app.use("/api/", api);
 // catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const err = new Error("Not Found");
+	err["status"] = 404;
 	next(err);
 });
 
 // error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+
 	// set locals, only providing error in development
-	res.locals.message = err.message;
+	res.locals.message = err.message || "Unknown error occurred";
 	res.locals.error = req.app.get("env") === "development" ? err : {};
+
 
 	// render the error page
 	res.status(err.status || 500);
-	res.render("error");
+	if (req.get("Content-Type") === "application/json") {
+		const errorJson: any = {
+			code: err.status || 500,
+			message: res.locals.message,
+			error: res.locals.error,
+		};
+		res.json(errorJson);
+	} else {
+		res.render("error");
+	}
+
 });
 
 module.exports = app;

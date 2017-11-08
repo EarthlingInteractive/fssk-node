@@ -1,0 +1,6 @@
+<h1>Oh Snap! An Error Occurred!</h1>
+<hr/>
+<p>{{message}}</p>
+<pre style='border: 1px solid black;padding:5px;'>
+{{error}}
+</pre>
