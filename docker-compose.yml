@@ -2,9 +2,11 @@ version: '2'
 services:
   postgres:
     env_file: server/.env
-    image: 'postgres:latest'
+    image: 'postgres:9.6'
     container_name: 'postgres'
     ports:
       - '5432:5432'
     volumes:
-      - './util/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh'
+      - './db/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh'
+      - './db/schema.sql:/docker-entrypoint-initdb.d/schema.sql'
+      - './db/seed.sql:/docker-entrypoint-initdb.d/seed.sql'

@@ -7,8 +7,8 @@
   },
   "proxy": "http://localhost:4000",
   "dependencies": {
-    "react": "~16.0.0",
-    "react-dom": "~16.0.0",
+    "react": "16.0.0",
+    "react-dom": "16.0.0",
     "react-scripts-ts": "2.8.0"
   },
   "scripts": {
@@ -19,9 +19,9 @@
     "lint": "tslint src/**/*.ts{,x}"
   },
   "devDependencies": {
-    "@types/jest": "~21.1.5",
-    "@types/node": "~8.0.47",
-    "@types/react": "~16.0.19",
-    "@types/react-dom": "~16.0.2"
+    "@types/jest": "21.1.5",
+    "@types/node": "8.0.47",
+    "@types/react": "16.0.19",
+    "@types/react-dom": "16.0.2"
   }
 }
