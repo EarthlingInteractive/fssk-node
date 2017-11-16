@@ -33,6 +33,8 @@
    "dependencies": {
       "@types/bookshelf": "0.9.7",
       "@types/knex": "0.0.64",
+      "@types/validator": "6.3.0",
+      "bcrypt": "1.0.3",
       "body-parser": "1.18.2",
       "bookshelf": "0.10.4",
       "dotenv": "4.0.0",
@@ -40,7 +42,8 @@
       "knex": "0.14.0",
       "morgan": "1.9.0",
       "mustache-express": "1.2.5",
-      "pg": "7.3.0"
+      "pg": "7.3.0",
+      "validator": "9.1.1"
    },
    "scripts": {
       "start": "nodemon",
