@@ -31,8 +31,8 @@ The current technologies used by fssk are as follows:
 | Client-side State Management | [MobX](https://github.com/mobxjs/mobx) | Simpler than Redux and requires less boilerplate |
 | Backend Server | [Express](https://expressjs.com/en/4x/api.html) | Well documented and widely supported web framework |
 | API Protocol | REST | A familiar paradigm to most developers |
-| Data Mapping Framework | [TypeORM](https://github.com/typeorm/typeorm) | An easy to use ORM framework |
-| Database Migrations | [TypeORM Migrations](http://knexjs.org/#Migrations) | Provided by TypeORM, so no additional dependencies |
+| Data Mapping Framework | [bookshelf.js](http://bookshelfjs.org/) | An easier to use ORM framework than Sequelize, based on [Knex.js](http://knexjs.org/) |
+| Database Migrations | [Knex.js Migrations](http://knexjs.org/#Migrations) | Provided by knex.js, so no additional dependencies |
 | Data Store | [PostgreSQL](https://www.postgresql.org/) | Open source, rock solid, industry standard |
 | Package Manager | [npm](https://www.npmjs.com/) | The battle-tested choice for node development |
 | Containerization | [Docker](https://www.docker.com/) | Containers make deployment easy |

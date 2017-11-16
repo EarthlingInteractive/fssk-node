@@ -7,17 +7,17 @@ export = {
 		debug: true,
 		connection: {
 			charset  : "utf8",
-			database : process.env["POSTGRES_DATABASE"] || "full-stack-starter-kit",
-			host     : process.env["POSTGRES_HOST"] || "postgres",
-			password : process.env["POSTGRES_PASSWORD"] || "qwerty1234",
-			user     : process.env["POSTGRES_USER"] || "postgres",
+			database : process.env["POSTGRES_DATABASE"] || "test",
+			host     : process.env["POSTGRES_HOST"] || "localhost",
+			password : process.env["POSTGRES_PASSWORD"] || "admin",
+			user     : process.env["POSTGRES_USER"] || "root",
 		},
 		migrations: {
-			directory: "./migrations/upgrades",
+			directory: "./db-migrations/upgrades",
 			tableName: "migrations",
 		},
 		seeds: {
-			directory: "./migrations/seeds",
+			directory: "./db-migrations/seeds",
 		},
 	} as Knex.Config,
 	production: {
@@ -31,7 +31,7 @@ export = {
 			user     : process.env["POSTGRES_USER"],
 		},
 		migrations: {
-			directory: "./migrations/upgrades",
+			directory: "./db-migrations/upgrades",
 			tableName: "migrations",
 		},
 	} as Knex.Config,

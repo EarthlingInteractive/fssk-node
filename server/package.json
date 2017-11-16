@@ -27,6 +27,13 @@
    },
    "scripts": {
       "start": "nodemon",
-      "lint": "tslint src/**/*.ts{,x}"
+      "lint": "tslint src/**/*.ts{,x}",
+      "lint:fix": "tslint --fix src/**/*.ts{,x}",
+      "knex" : "knex --knexfile=./src/knexfile.ts",
+      "migrate": "npm run knex migrate:latest",
+      "migrate:make": "npm run knex migrate:make",
+      "migrate:rollback": "npm run knex migrate:rollback",
+      "seed": "npm run knex seed:run",
+      "seed:make": "npm run knex seed:make"
    }
 }
