@@ -6,7 +6,7 @@ exports.up = (knex: Knex): Promise<any> => {
 		table.string("email");
 		table.unique(["email"]);
 		table.string("name");
-		table.string("password");
+		table.text("password");
 		table.boolean("is_admin");
 		table.timestamps(false, true);
 	}));

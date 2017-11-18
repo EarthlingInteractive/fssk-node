@@ -1,6 +1,6 @@
-import Base from "../base/base";
+import BaseModel from "../base/baseModel";
 
-export default class Users extends Base {
+export default class UserModel extends BaseModel {
 	get tableName() { return "users"; }
 	get idAttribute() { return "id"; }
 	get hasTimestamps() { return true; }

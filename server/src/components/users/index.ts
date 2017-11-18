@@ -1,42 +1,42 @@
 import * as bcrypt from "bcrypt";
 import * as Validator from "validator";
 import handleDatabaseErrors from "../../util/handleDatabaseErrors";
-import Users from "./users";
-import Base from "../base/base";
+import UserModel from "./userModel";
+import BaseModel from "../base/baseModel";
 import {Collection, Model} from "bookshelf";
 
 export default class UsersController {
 
-	public async getUsers(): Promise<void | Collection<Model<Users>>> {
-		const usersCollection = await Users
+	public async getUsers(): Promise<void | Collection<Model<UserModel>>> {
+		const usersCollection = await UserModel
 			.fetchAll()
 			.catch(handleDatabaseErrors);
 		return usersCollection;
 	}
 
-	public async getUser(id: string): Promise<Base | void> {
+	public async getUser(id: string): Promise<BaseModel | void> {
 		if (!Validator.isUUID(id, "4")) {
 			throw new Error("Invalid ID");
 		}
-		const user = await new Users()
+		const user = await new UserModel()
 			.where({id})
 			.fetch()
 			.catch(handleDatabaseErrors);
 		return user;
 	}
 
-	public async getUserByEmail(email: string): Promise<any> {
+	public async getUserByEmail(email: string): Promise<BaseModel | void> {
 		if (!Validator.isEmail(email)) {
 			throw new Error("Invalid Email");
 		}
-		const user = await new Users()
+		const user = await new UserModel()
 			.where({email})
 			.fetch()
 			.catch(handleDatabaseErrors);
 		return user;
 	}
 
-	public async createUser(data: any): Promise<any> {
+	public async createUser(data: any): Promise<BaseModel | void> {
 		// const requiredFields = ["password", "name", "email"];
 		// const missingRequired = validation.checkRequiredFields(requiredFields, data);
 		// if (missingRequired.length > 0) {
@@ -48,7 +48,7 @@ export default class UsersController {
 		}
 
 		// make sure the email address isn't already used
-		const existingUser = await new Users()
+		const existingUser = await new UserModel()
 			.where({email: data.email})
 			.fetch()
 			.catch(handleDatabaseErrors);
@@ -62,7 +62,7 @@ export default class UsersController {
 		// All users are created as not admin
 		data.is_admin = false;
 
-		const user = await new Users(data)
+		const user = await new UserModel(data)
 			.save()
 			.catch(handleDatabaseErrors);
 

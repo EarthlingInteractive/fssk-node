@@ -2,7 +2,8 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import * as mustacheExpress from "mustache-express";
-import api from "./routes/api";
+import AuthController from "./components/auth";
+import api from "./api";
 
 /* tslint:disable */
 const fs = require("fs");
@@ -11,7 +12,7 @@ const path = require("path");
 
 const environment = process.env["NODE_ENV"];
 
-const app = express();
+const app: express.Application = express();
 
 // include mustache template engine
 app.engine("mst", mustacheExpress());
@@ -28,6 +29,9 @@ if (environment === "development") {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const authController = new AuthController();
+authController.initialize(app);
 
 // linked client dist directory
 // if (environment === 'production') app.use(express.static(path.join(__dirname, 'public')));
