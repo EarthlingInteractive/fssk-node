@@ -5,18 +5,20 @@ Messing around with different technologies
 
 ## Installing / Getting started
 
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
+Run the following:
 
 ```
-cp server/.env.example server/.env
-cp client/.env.example client/.env
-docker-compose -f docker-compose.yml up -d
-cd client && npm install && npm start
-cd server && npm install and npm start
+$ cp server/.env.example server/.env
+$ cp client/.env.example client/.env
+$ docker-compose -f docker-compose.yml up -d
+$ cd client && npm install && npm start
+$ cd server && npm install and npm start
+$ npm run migrate
+$ npm run seed
 ```
 
 This spins up a postgres instance, starts client at `http://localhost:3000` and starts server at `http://localhost:4000`.
+Server calls are proxied, so `http://localhost:3000/api/users` will hit `http://localhost:4000/api/users` automagically.
 
 ## Developing
 
@@ -36,7 +38,7 @@ The current technologies used by fssk are as follows:
 | Data Store | [PostgreSQL](https://www.postgresql.org/) | Open source, rock solid, industry standard |
 | Package Manager | [npm](https://www.npmjs.com/) | The battle-tested choice for node development |
 | Containerization | [Docker](https://www.docker.com/) | Containers make deployment easy |
-| Testing Framework | [Jasmine](https://jasmine.github.io/) | Complete testing package with an intuitive syntax |
+| Testing Framework | [Jest](https://facebook.github.io/jest/) | Complete testing package with an intuitive syntax |
 | Linter | [tslint](https://github.com/palantir/tslint) | Keeps your TypeScript code consistent |
 
 ### Prerequisites
@@ -71,30 +73,34 @@ Will build the client code, spin up the server in a docker instance with / point
 
 ## Configuration
 
-See the .env files in client and server directories.
+See the .env.example files in client and server directories.
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
-Explain what these tests test and why.
+Client and Server code each have their own tests, using Jest.
 
 ```shell
-cd client && npm run test
+cd client && npm test
+```
+
+and 
+
+```shell
+cd server && npm test
 ```
 
 ## Style guide
 
-Explain your code style and show how to check it.
+TBD
 
 ## Api Reference
 
-If the api is external, link to api documentation. If not describe your api including authentication methods as well as explaining all the endpoints with their required parameters.
-
+TBD
 
 ## Database
 
-Explaining what database (and version) has been used. Provide download links.
-Documents your database design and schemas, relations etc... 
+Using postgres v9.6. For local development, database runs in docker container. `db` folder contains 
+init scripts, and `server/db_migrations` contains additional migrations and seeds.
 
 ## Licensing
 
