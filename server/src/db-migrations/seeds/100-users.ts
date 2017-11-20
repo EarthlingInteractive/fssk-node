@@ -6,7 +6,7 @@ exports.seed = (knex: Knex): Promise<any> => {
 	return Promise.resolve(knex("users").del()
 		.then(() => {
 			return knex("users").insert([
-				{id: "09881646-ee06-11e6-83ef-18dbf21dd15f",
+				{id: "52bd60d3-fde7-4625-bc1f-2ea2e2288072",
 					email: "test@earthlinginteractive.com",
 					password: bcrypt.hashSync("test", 8),
 					name: "Testy McTesterson",

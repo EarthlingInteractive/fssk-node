@@ -79,6 +79,7 @@ export default class AuthController {
 		});
 
 		Passport.deserializeUser((id: any, done) => {
+			console.log('poo', id);
 			usersController.getUser(id)
 				.then((user) => {
 					done(null, user || {});
@@ -98,7 +99,7 @@ export function authMiddleware(req: any, res: express.Response, next: express.Ne
 export function adminAuthMiddleware(req: any, res: express.Response, next: express.NextFunction) {
 	if (!req.isAuthenticated() || !req.user) {
 		return next(new Error("Authentication Error Occurred"));
-	} else if (!req.user.get("isAdmin")) {
+	} else if (!req.user.get("is_admin")) {
 		return next(new Error("administrator privileges required"));
 	}
 	return next();
