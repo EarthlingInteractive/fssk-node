@@ -79,7 +79,7 @@ export default class AuthController {
 		});
 
 		Passport.deserializeUser((id: any, done) => {
-			console.log('poo', id);
+			console.log("poo", id);
 			usersController.getUser(id)
 				.then((user) => {
 					done(null, user || {});
