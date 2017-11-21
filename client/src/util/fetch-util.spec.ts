@@ -1,6 +1,6 @@
 const fetchMock = require("fetch-mock"); // tslint:disable-line
 import {
-	default as fetchUtil, handleResponse, handlers, IFetchUtilError,
+	default as fetchUtil, handleResponse, handlers,
 	requestHandler,
 } from "./fetch-util";
 
@@ -113,26 +113,18 @@ describe("fetchUtil", () => {
 				status: 200,
 		};
 
-		it("should return rejected promise if response is not 200", (done) => {
+		it("should return rejected promise if response is not 200", () => {
 			response.ok = false;
 			response.status = 400;
-			handlers.JSONResponseHandler(response as any)
-				.catch((error) => {
-					expect(error.statusCode).toEqual(400);
-					expect(error.status).toEqual(400);
-					expect(error.json).toEqual({id: 5});
-					done();
-				});
-
+			return expect(handlers.JSONResponseHandler(response as any)).rejects.toHaveProperty("status", 400);
 		});
 
-		it("should return json on success", (done) => {
+		it("should return json on success", () => {
 			response.ok = true;
 			response.status = 200;
-			handlers.JSONResponseHandler(response as any)
+			return handlers.JSONResponseHandler(response as any)
 				.then((data) => {
 					expect(data).toEqual({id: 5});
-					done();
 				});
 
 		});
@@ -149,60 +141,45 @@ describe("fetchUtil", () => {
 			statusText: "ok",
 		};
 
-		it("should return rejected promise if response is not 200", (done) => {
+		it("should return rejected promise if response is not 200", () => {
 			response.ok = false;
 			response.status = 400;
 			response.statusText = "not found";
-			handlers.textResponseHandler(response as any)
-				.catch((error: IFetchUtilError) => {
-					expect(error.statusCode).toEqual(400);
-					expect(error.status).toEqual(400);
-					expect(error.statusText).toEqual("not found");
-					done();
-				});
-
+			return expect(handlers.textResponseHandler(response as any)).rejects.toHaveProperty("status", 400);
 		});
 
-		it("should return text on success", (done) => {
+		it("should return text on success", () => {
 			response.ok = true;
 			response.status = 200;
-			handlers.textResponseHandler(response as any)
+			return handlers.textResponseHandler(response as any)
 				.then((data) => {
 					expect(data).toEqual("woo");
-					done();
 				});
 		});
 	});
 
 	describe("fetchUtil", () => {
-		it("should call fetch with given url and return expected data", (done) => {
+		it("should call fetch with given url and return expected data", () => {
 			fetchMock.get("*", {
 				headers: new Headers({"Content-Type":  "application/json"}),
 				body: {id: 5},
 			});
-			fetchUtil("api/fake/1")
+			return fetchUtil("api/fake/1")
 				.then((data: any) => {
 					expect(fetchMock.lastUrl()).toBe("api/fake/1");
 					expect(data).toEqual({id: 5});
 					fetchMock.restore();
-					done();
 				});
 		});
 
-		it("should return rejected promise on service error", (done) => {
+		it("should return rejected promise on service error", () => {
 			fetchMock.get("*", {
 				status: 418,
 				statusCode: 418,
 				headers: new Headers({"Content-Type":  "application/json"}),
 				body: {id: 5},
 			});
-			fetchUtil("api/fake/1")
-				.catch((error: IFetchUtilError) => {
-					expect(fetchMock.lastUrl()).toBe("api/fake/1");
-					expect(error.status).toEqual(418);
-					fetchMock.restore();
-					done();
-				});
+			return expect(fetchUtil("api/fake/1")).rejects.toHaveProperty("status", 418);
 		});
 
 	});

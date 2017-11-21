@@ -116,7 +116,7 @@ describe("AuthStore", () => {
 		beforeEach(() => { setValidRegData(authStore); });
 		afterEach(fetchMock.restore);
 
-		it("should register a new account", (done) => {
+		it("should register a new account", () => {
 			fetchMock.post("*", {
 				status: 200,
 				statusCode: 200,
@@ -126,13 +126,12 @@ describe("AuthStore", () => {
 
 			const getDataFromServer = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));
 
-			authStore.register().then(() => {
+			return authStore.register().then(() => {
 				expect(getDataFromServer).toHaveBeenCalled();
-				done();
 			});
 		});
 
-		it("should report service errors", (done) => {
+		it("should report service errors", () => {
 			fetchMock.post("*", {
 				status: 418,
 				statusCode: 418,
@@ -141,13 +140,12 @@ describe("AuthStore", () => {
 			});
 
 			const parseErrorSpy = spyOn(authStore, "parseServerErrorResponse");
-			authStore.register().then(() => {
+			return authStore.register().then(() => {
 				expect(parseErrorSpy).toHaveBeenCalled();
-				done();
 			});
 		});
 
-		it("should handle non-unique email errors", (done) => {
+		it("should handle non-unique email errors", () => {
 			fetchMock.post("*", {
 				status: 400,
 				statusCode: 400,
@@ -155,9 +153,8 @@ describe("AuthStore", () => {
 				body: {fields: "email", validationType: "Value must be unique"},
 			});
 
-			authStore.register().then(() => {
+			return authStore.register().then(() => {
 				expect(authStore.emailError.length).toBeGreaterThan(0);
-				done();
 			});
 		});
 	});
@@ -202,7 +199,7 @@ describe("AuthStore", () => {
 		beforeEach(() => { setValidLoginData(authStore); });
 		afterEach(fetchMock.restore);
 
-		it("should perform a login", (done) => {
+		it("should perform a login", () => {
 			fetchMock.post("*", {
 				status: 200,
 				statusCode: 200,
@@ -212,13 +209,12 @@ describe("AuthStore", () => {
 
 			const getDataFromServer = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));
 
-			authStore.login().then(() => {
+			return authStore.login().then(() => {
 				expect(getDataFromServer).toHaveBeenCalled();
-				done();
 			});
 		});
 
-		it("should report service errors", (done) => {
+		it("should report service errors", () => {
 			fetchMock.post("*", {
 				status: 418,
 				statusCode: 418,
@@ -227,9 +223,8 @@ describe("AuthStore", () => {
 			});
 
 			const parseErrorSpy = spyOn(authStore, "parseServerErrorResponse");
-			authStore.login().then(() => {
+			return authStore.login().then(() => {
 				expect(parseErrorSpy).toHaveBeenCalled();
-				done();
 			});
 		});
 	});
@@ -240,7 +235,7 @@ describe("AuthStore", () => {
 		beforeEach(() => { setValidLoginData(authStore); });
 		afterEach(fetchMock.restore);
 
-		it("should perform a log out", (done) => {
+		it("should perform a log out", () => {
 			fetchMock.delete("*", {
 				status: 200,
 				statusCode: 200,
@@ -248,9 +243,8 @@ describe("AuthStore", () => {
 
 			const getDataFromServer = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));
 
-			authStore.logout().then(() => {
+			return authStore.logout().then(() => {
 				expect(getDataFromServer).toHaveBeenCalled();
-				done();
 			});
 		});
 	});
@@ -258,7 +252,7 @@ describe("AuthStore", () => {
 	describe("update user", () => {
 		const authStore = new AuthStore();
 
-		it("should set the user object and hasLoadedSession", (done) => {
+		it("should set the user object and hasLoadedSession", () => {
 			const user = {
 				id: 12345,
 				isAdmin: false,
@@ -269,14 +263,12 @@ describe("AuthStore", () => {
 			expect(authStore.user.id).toEqual(user.id);
 			expect(authStore.user.isAdmin).toBeFalsy();
 			expect(authStore.hasLoadedSession).toBeTruthy();
-			done();
 		});
 
-		it("should clear hasLoadedSession if applicable", (done) => {
+		it("should clear hasLoadedSession if applicable", () => {
 			authStore.updateUser({}, true);
 
 			expect(authStore.hasLoadedSession).toBeFalsy();
-			done();
 		});
 	});
 });

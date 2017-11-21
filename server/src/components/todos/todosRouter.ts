@@ -45,11 +45,11 @@ router.put("/:id", authMiddleware, (req: express.Request, res: express.Response,
 		throw new Error("Invalid ID");
 	}
 
+	const todo = req.body;
+	todo.id = req.params.id;
+
 	todosController.updateTodo(req.body)
 		.then((todo) => {
-			if (todo && (req.user.get("id") !== todo.get("user_id")) && !req.user.get("is_admin")) {
-				return next(new Error("Authentication Error"));
-			}
 			res.json(todo ? todo.toJSON() : {});
 		})
 		.catch((err: Error) => next(err));
@@ -62,9 +62,6 @@ router.delete("/:id", authMiddleware, (req: express.Request, res: express.Respon
 
 	return todosController.deleteTodo(req.params.id)
 		.then((todo) => {
-			if (todo && (req.user.get("id") !== todo.get("user_id")) && !req.user.get("is_admin")) {
-				return next(new Error("Authentication Error"));
-			}
 			res.json(todo ? todo.toJSON() : {});
 		})
 		.catch((err: Error) => next(err));

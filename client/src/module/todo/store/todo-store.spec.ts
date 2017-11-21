@@ -14,13 +14,13 @@ describe("TodoStore", () => {
 			fetchMock.restore();
 		});
 
-		it("should create new todo with given props", (done) => {
+		it("should create new todo with given props", () => {
 
 			const getDataFromServer = spyOn(fetchUtils, "default")
 				.and.returnValue(Promise.resolve(testModel.getPostProperties()));
 
 			const store = new TodoStore();
-			store.saveAndAddTodo(testModel).then((addedTodo) => {
+			return store.saveAndAddTodo(testModel).then((addedTodo) => {
 				expect(getDataFromServer.calls.any()).toBeTruthy();
 				expect(getDataFromServer.calls.argsFor(0)).toEqual(["/api/todos", {
 					body: testModel.getPostProperties(),
@@ -30,11 +30,10 @@ describe("TodoStore", () => {
 				if (addedTodo) {
 					expect(addedTodo.title).toEqual(testModel.title);
 				}
-				done();
 			});
 		});
 
-		it("should report service errors", (done) => {
+		it("should report service errors", () => {
 			fetchMock.post("*", {
 				status: 418,
 				statusCode: 418,
@@ -43,10 +42,9 @@ describe("TodoStore", () => {
 			});
 			const consoleErrorSpy = spyOn(console, "error");
 			const store = new TodoStore();
-			store.saveAndAddTodo(testModel).then((addedTodo) => {
+			return store.saveAndAddTodo(testModel).then((addedTodo) => {
 				expect(addedTodo).toBeUndefined();
 				expect(consoleErrorSpy).toHaveBeenCalled();
-				done();
 			});
 
 		});

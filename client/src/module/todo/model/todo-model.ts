@@ -8,6 +8,7 @@ export interface ITodoModelProps {
 	completed?: boolean;
 	createdAt?: string;
 	updatedAt?: string;
+	user_id?: string;
 }
 
 export default class TodoModel {
@@ -15,6 +16,7 @@ export default class TodoModel {
 	@observable public title: string;
 	@observable public order: number = 0;
 	@observable public completed: boolean = false;
+	@observable public user_id: string | undefined;
 	@observable public createdAt: string;
 	@observable public updatedAt: string;
 
@@ -28,6 +30,7 @@ export default class TodoModel {
 			id: this.id,
 			order: this.order,
 			title: this.title,
+			user_id: this.user_id,
 		};
 	}
 
@@ -49,6 +52,7 @@ export default class TodoModel {
 			if (props.title) { this.title = props.title; }
 			if (props.order) { this.order = props.order; }
 			if (props.completed !== undefined) { this.completed = props.completed; }
+			if (props.user_id !== undefined) { this.user_id = props.user_id; }
 			if (props.createdAt) { this.createdAt = props.createdAt; }
 			if (props.updatedAt) { this.updatedAt = props.updatedAt; }
 		});

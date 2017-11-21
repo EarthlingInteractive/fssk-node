@@ -1,11 +1,10 @@
 import {action, IObservableArray, observable, runInAction, useStrict} from "mobx";
 import fetchUtil from "../../../util/fetch-util";
 import TodoModel, {ITodoModelProps} from "../model/todo-model";
+import authStore from "../../authentication/store/auth-store";
 
 useStrict(true); // don't allow editing of state outside of mobx actions
 
-// TODO: i want to make generic load / save / etc methods in a parent model
-//       to eliminate boilerplate code  --Mark
 export class TodoStore {
 	@observable public todos: IObservableArray<TodoModel> = observable.array([]);
 
@@ -32,13 +31,16 @@ export class TodoStore {
 	}
 
 	@action public addTodo(todo: TodoModel): TodoModel {
+		const user = authStore.user;
+		todo.user_id = user.id;
 		this.todos.push(todo);
 		return todo;
 	}
 
 	@action public async loadTodos(): Promise<void> {
 		try {
-			const todosData: any = await fetchUtil("/api/todos");
+			const user = authStore.user;
+			const todosData: any = await fetchUtil("/api/users/" + user.id + "/todos");
 
 			runInAction(() => {
 				this.todos.clear();
