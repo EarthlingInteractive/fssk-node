@@ -11,10 +11,10 @@ Run the following:
 $ cp server/.env.example server/.env
 $ cp client/.env.example client/.env
 $ docker-compose -f docker-compose.yml up -d
-$ cd client && npm install && npm start
 $ cd server && npm install and npm start
 $ npm run migrate
 $ npm run seed
+$ cd ../client && npm install && npm start
 ```
 
 This spins up a postgres instance, starts client at `http://localhost:3000` and starts server at `http://localhost:4000`.

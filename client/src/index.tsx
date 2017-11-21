@@ -1,11 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
-import "./index.css";
+import "./img/favicon.ico";
 
-ReactDOM.render(
-	<App />,
-	document.getElementById("root") as HTMLElement,
-);
-registerServiceWorker();
+import RoutingContainer from "./module/routing/container/routing-container";
+
+ReactDOM.render(<RoutingContainer/>, document.getElementById("root"));
