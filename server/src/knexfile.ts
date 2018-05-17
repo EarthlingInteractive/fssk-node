@@ -8,7 +8,7 @@ export = {
 		connection: {
 			charset  : "utf8",
 			database : process.env["POSTGRES_DATABASE"] || "test",
-			host     : process.env["POSTGRES_HOST"] || "localhost",
+			host     : process.env["POSTGRES_HOST"] || "db",
 			password : process.env["POSTGRES_PASSWORD"] || "admin",
 			user     : process.env["POSTGRES_USER"] || "root",
 		},

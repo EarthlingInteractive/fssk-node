@@ -1,7 +1,22 @@
 {
-	"extends": ["../tslint.json", "tslint-react"],
-	"rules" : {
-		"jsx-no-multiline-js": false,
-		"jsx-boolean-value": false
-	}
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+	"curly": true,
+	"indent": [true, "tabs"],
+	"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+	"no-console": false,
+	"no-consecutive-blank-lines": false,
+	"no-object-literal-type-assertion": false,
+	"no-string-literal": false,
+	"object-literal-sort-keys": false,
+	"only-arrow-functions": false,
+	"ordered-imports": false,
+	"no-unused-variable": false,
+	"no-this-assignment": false,
+	"jsx-no-multiline-js": false,
+	"jsx-boolean-value": false
+  },
+  "jsRules": {
+	"curly": true
+  }
 }

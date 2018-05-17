@@ -134,8 +134,7 @@ describe("AuthStore", () => {
 		it("should report service errors", () => {
 			fetchMock.post("*", {
 				status: 418,
-				statusCode: 418,
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {code: 418, message: "I'm a little teapot"},
 			});
 
@@ -148,8 +147,7 @@ describe("AuthStore", () => {
 		it("should handle non-unique email errors", () => {
 			fetchMock.post("*", {
 				status: 400,
-				statusCode: 400,
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {fields: "email", validationType: "Value must be unique"},
 			});
 
@@ -202,8 +200,7 @@ describe("AuthStore", () => {
 		it("should perform a login", () => {
 			fetchMock.post("*", {
 				status: 200,
-				statusCode: 200,
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {id: 1234},
 			});
 
@@ -217,8 +214,7 @@ describe("AuthStore", () => {
 		it("should report service errors", () => {
 			fetchMock.post("*", {
 				status: 418,
-				statusCode: 418,
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {code: 418, message: "I'm a little teapot"},
 			});
 
@@ -238,7 +234,6 @@ describe("AuthStore", () => {
 		it("should perform a log out", () => {
 			fetchMock.delete("*", {
 				status: 200,
-				statusCode: 200,
 			});
 
 			const getDataFromServer = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));

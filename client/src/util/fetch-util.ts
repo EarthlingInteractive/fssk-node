@@ -15,9 +15,13 @@ export default function fetchUtil(url: string, options?: any) {
 
 export function requestHandler(url: string, options?: any) {
 
+	const headers = new Headers();
+	headers.append("Accept", "application/json");
+	headers.append("Content-Type", "application/json");
+
 	const def = {
 		method: "GET",
-		headers: {"Content-Type": "application/json"},
+		headers,
 		credentials: "include",
 	};
 

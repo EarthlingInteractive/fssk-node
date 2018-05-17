@@ -55,7 +55,7 @@ export class AuthStore {
 		const {email, name, password} = this;
 
 		try {
-			await fetchUtil("/api/users", {
+			await fetchUtil("/api/auth/register", {
 				body: {
 					email,
 					name,

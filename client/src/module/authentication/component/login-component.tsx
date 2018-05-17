@@ -36,17 +36,24 @@ export default class LoginComponent extends React.Component<ILoginComponentProps
 			passwordError,
 		} = this.props;
 
+		const contentStyle = {
+				width: "25rem",
+				marginTop: "20px",
+		};
+
 		return (
-			<div className="dsk-Admin-form login">
-				<div className="dsk-AdminLogin__content">
-					<div className="dsk-Admin-form__title">
-						Application Log In
+			<div className="dsk-Admin-form login container d-flex justify-content-center">
+				<div className="dsk-AdminLogin__content d-flex flex-column justify-content-center" style={contentStyle}>
+					<div className="dsk-Admin-form__title d-flex justify-content-center">
+						Application Log In!
 					</div>
-					<img src={logo} />
+					<div className="d-flex justify-content-center">
+						<img src={logo} />
+					</div>
 					<form onSubmit={this.onSubmit}>
 
 						<FormInput
-							label="email"
+							label="Email"
 							type="email"
 							name="email"
 							value={email}
@@ -54,12 +61,12 @@ export default class LoginComponent extends React.Component<ILoginComponentProps
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
 
 						<FormInput
-							label="password"
+							label="Password"
 							type="password"
 							name="password"
 							value={password}
@@ -67,11 +74,11 @@ export default class LoginComponent extends React.Component<ILoginComponentProps
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
 
-						<input type="submit" value="Log In" className="dsk-Admin-form__submit" />
+						<input type="submit" value="Log In" className="dsk-Admin-form__submit btn btn-primary" />
 					</form>
 					<p className="dsk-Admin-form__text a-text-align-center">
 						Forget your password?&nbsp;

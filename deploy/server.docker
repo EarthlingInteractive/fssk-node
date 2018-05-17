@@ -1,0 +1,10 @@
+from node:8.11.2
+
+WORKDIR /opt/src
+COPY ./client .
+
+ENV CHOKIDAR_USEPOLLING true
+
+EXPOSE 4000
+
+CMD ["npm", "install"]
