@@ -46,6 +46,8 @@ services:
     volumes:
       - 'fssk-db-data:/var/lib/postgresql/data'
       - './db:/docker-entrypoint-initdb.d/'
+    networks:
+      - app
 networks:
   app:
     driver: bridge
