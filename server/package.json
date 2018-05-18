@@ -2,7 +2,7 @@
   "name": "fssk-server",
   "version": "0.1.0",
   "engines": {
-    "node": ">= 8.9.0"
+    "node": ">= 8.9.4"
   },
   "jest": {
     "transform": {
