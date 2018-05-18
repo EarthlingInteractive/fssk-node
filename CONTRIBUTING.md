@@ -3,30 +3,41 @@
 We love pull requests from everyone. By participating in this project, you
 agree to abide by the project's [code of conduct](https://github.com/EarthlingInteractive/full-stack-starter-kit/wiki/code-of-conduct).
 
-Fork, then clone the repo:
+## Fork, then clone the repo:
 
-    git clone git@github.com:<your-username>/full-stack-starter-kit.git;
+    git clone git@github.com:<your-username>/fssk-node.git;
 
-Set up your machine:
+## Set up your machine:
+    
+Copy `server/.env.example` to `server/.env` and `client/.env.example` to `client/.env`.
+    
+    cd fssk-node && docker-compose up
+    docker exec -it fssk-server npm run migrate && npm run seed
 
-    cd full-stack-starter-kit && docker-compose up;
+## Make your change
+
+Add tests for your change.
 
 Make sure the tests pass:
 
-    docker exec -it client npm test;
-    docker exec -it server cd server && ./vendor/bin/phpunit
+    docker exec -it fssk-client npm test
+    docker exec -it fssk-server npm test
 
-Make your change. Add tests for your change. Make the tests pass.
+Lint your code:
+
+      docker exec -it fssk-client npm run lint
+      docker exec -it fssk-server npm run lint
 
 Push to your fork and [submit a pull request][pr].
 
-[pr]: https://github.com/EarthlingInteractive/full-stack-starter-kit/compare/
+[pr]: https://github.com/EarthlingInteractive/fssk-node/compare/
 
 At this point you're waiting on us. We may suggest some changes or improvements or alternatives.
 
 Some things that will increase the chance that your pull request is accepted:
 
 * Write tests.
+* Follow our [Project Guideline](https://github.com/EarthlingInteractive/project-guidelines)
 * Follow our [style guide][style].
 * Write a [good commit message][commit].
 
