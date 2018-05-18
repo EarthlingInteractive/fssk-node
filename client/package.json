@@ -5,7 +5,7 @@
   "engines": {
     "node": ">= 8.9.4"
   },
-  "proxy": "http://fssk-server",
+  "proxy": "http://fssk-server:4000",
   "homepage": "/client",
   "dependencies": {
     "autobind-decorator": "2.1.0",
