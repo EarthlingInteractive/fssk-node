@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LoginContainer from "../../authentication/container/login-container";
 import RegisterContainer from "../../authentication/container/register-container";
 import TodoContainer from "../../todo/container/todo-container";
-import ProtectedRoute from "./protected-route-container";
+import ProtectedRouteContainer from "./protected-route-container";
+
 
 export default class RoutingContainer extends React.Component<any> {
 	public render() {
@@ -15,7 +16,7 @@ export default class RoutingContainer extends React.Component<any> {
 					<Switch>
 						<Route exact path="/login" component={LoginContainer} />
 						<Route exact path="/register" component={RegisterContainer} />
-						<ProtectedRoute exact path="/" component={TodoContainer} />
+						<ProtectedRouteContainer exact path="/" component={TodoContainer} />
 						<Route component={pageNotFound} />
 					</Switch>
 				</Router>

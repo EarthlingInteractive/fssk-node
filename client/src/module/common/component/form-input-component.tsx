@@ -70,7 +70,7 @@ const formInput: React.StatelessComponent<IFormInputProps> = ({
 			but if there is no content of this div, the other elements shift up to fill the space and things get
 			jumpy when errors appear
 			*/}
-			{errorClass && <div className={errorClass}>{error ? error : "&nbsp;"}</div>}
+			{errorClass && <div className={errorClass}>{error ? error : "\u00A0"}</div>}
 		</fieldset>
 	);
 };

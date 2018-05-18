@@ -16,7 +16,7 @@ export default class TodoModel {
 	@observable public title: string;
 	@observable public order: number = 0;
 	@observable public completed: boolean = false;
-	@observable public user_id: string | undefined;
+	@observable public user_id: string | undefined; // tslint:disable-line
 	@observable public createdAt: string;
 	@observable public updatedAt: string;
 

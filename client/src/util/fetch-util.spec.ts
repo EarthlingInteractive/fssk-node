@@ -8,9 +8,14 @@ describe("fetchUtil", () => {
 	describe("requestHandler", () => {
 		it("should return default if no options given", () => {
 			const url = "/api/sessions";
+
+			const headers = new Headers();
+			headers.append("Accept", "application/json");
+			headers.append("Content-Type", "application/json");
+
 			const def: RequestInit = {
 				method: "GET",
-				headers: {"Content-Type": "application/json"},
+				headers,
 				credentials: "include",
 			};
 			const request = requestHandler(url);
@@ -20,9 +25,14 @@ describe("fetchUtil", () => {
 
 		it("should add given options to default", () => {
 			const url = "/api/sessions";
+
+			const headers = new Headers();
+			headers.append("Accept", "application/json");
+			headers.append("Content-Type", "application/json");
+
 			const def: RequestInit = {
 				method: "GET",
-				headers: {"Content-Type": "application/json"},
+				headers,
 				cache: "default",
 				credentials: "include",
 			};
@@ -35,15 +45,20 @@ describe("fetchUtil", () => {
 		it("should stringify body of POST requests", () => {
 			const url = "/api/sessions";
 			const data = {id: 5};
-			const pre: RequestInit = {
+
+			const headers = new Headers();
+			headers.append("Accept", "application/json");
+			headers.append("Content-Type", "application/json");
+
+			const pre: any = {
 				method: "POST",
-				headers: {"Content-Type": "application/json"},
+				headers,
 				body: data,
 				credentials: "include",
 			};
 			const post: RequestInit = {
 				method: "POST",
-				headers: {"Content-Type": "application/json"},
+				headers,
 				body: JSON.stringify(data),
 				credentials: "include",
 			};
@@ -56,9 +71,14 @@ describe("fetchUtil", () => {
 		it("should add querystring to GET request url", () => {
 			const baseUrl = "/api/profile/load";
 			const data = {userId: 5};
+
+			const headers = new Headers();
+			headers.append("Accept", "application/json");
+			headers.append("Content-Type", "application/json");
+
 			const def: RequestInit = {
 				method: "GET",
-				headers: {"Content-Type": "application/json"},
+				headers,
 				credentials: "include",
 			};
 
@@ -161,7 +181,7 @@ describe("fetchUtil", () => {
 	describe("fetchUtil", () => {
 		it("should call fetch with given url and return expected data", () => {
 			fetchMock.get("*", {
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {id: 5},
 			});
 			return fetchUtil("api/fake/1")
@@ -175,8 +195,7 @@ describe("fetchUtil", () => {
 		it("should return rejected promise on service error", () => {
 			fetchMock.get("*", {
 				status: 418,
-				statusCode: 418,
-				headers: new Headers({"Content-Type":  "application/json"}),
+				headers: {"Content-Type":  "application/json"},
 				body: {id: 5},
 			});
 			return expect(fetchUtil("api/fake/1")).rejects.toHaveProperty("status", 418);

@@ -29,6 +29,7 @@ export default class TodoContainer extends React.Component<any> {
 				marginTop: "80px",
 				marginRight: "auto",
 				marginLeft: "auto",
+				zIndex: 1040,
 		};
 
 		return (

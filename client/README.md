@@ -31,7 +31,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [Adding Assets Outside of the Module System](#adding-assets-outside-of-the-module-system)
   - [When to Use the `public` Folder](#when-to-use-the-public-folder)
 - [Using Global Variables](#using-global-variables)
-- [Adding Bootstrap](#adding-bootstrap)
+- [Bootstrap V4](#bootstrap)
   - [Using a Custom Theme](#using-a-custom-theme)
 - [Adding Flow](#adding-flow)
 - [Adding Custom Environment Variables](#adding-custom-environment-variables)
@@ -738,38 +738,9 @@ This makes it obvious you are using a global variable intentionally rather than 
 
 Alternatively, you can force the linter to ignore any line by adding `// eslint-disable-line` after it.
 
-## Adding Bootstrap
+## Bootstrap
 
-You don’t have to use [React Bootstrap](https://react-bootstrap.github.io) together with React but it is a popular library for integrating Bootstrap with React apps. If you need it, you can integrate it with Create React App by following these steps:
-
-Install React Bootstrap and Bootstrap from npm. React Bootstrap does not include Bootstrap CSS so this needs to be installed as well:
-
-```sh
-npm install --save react-bootstrap bootstrap@3
-```
-
-Alternatively you may use `yarn`:
-
-```sh
-yarn add react-bootstrap bootstrap@3
-```
-
-Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your ```src/index.js``` file:
-
-```js
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-// Put any other imports below so that CSS from your
-// components takes precedence over default styles.
-```
-
-Import required React Bootstrap components within ```src/App.js``` file or your custom component files:
-
-```js
-import { Navbar, Jumbotron, Button } from 'react-bootstrap';
-```
-
-Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`App.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
+This project is currently using [reactstrap](https://www.npmjs.com/package/reactstrap) to integrate with Bootstrap v4. [React Bootstrap](https://react-bootstrap.github.io) does not currently support Bootstrap v4 so that's why the decision was made to go with reactstrap. Reactstrap does not include bootstrap css file so you will need to manually include that in your root tsx component file.
 
 ### Using a Custom Theme
 

@@ -1,24 +1,28 @@
-# FSSK
-> Full Stack Starter Kit Playground
+# FSSK-Node
+> Full Stack Starter Kit, using NodeJS for server.
 
-Messing around with different technologies 
+The Earthling Interactive Full Stack Starter Kit project provides a starting point for a full-stack node application with a rich front-end framework.  It also includes related technologies to make development and deployment easier, such as bundling, testing, and containerization.
 
 ## Installing / Getting started
 
-Run the following:
+First, clone the project. Copy `server/.env.example` to `server/.env` and `client/.env.example` to `client/.env`
+
+Run the following command:
 
 ```
-$ cp server/.env.example server/.env
-$ cp client/.env.example client/.env
-$ docker-compose -f docker-compose.yml up -d
-$ cd server && npm install and npm start
-$ npm run migrate
-$ npm run seed
-$ cd ../client && npm install && npm start
+$ docker-compose up -d
 ```
 
 This spins up a postgres instance, starts client at `http://localhost:3000` and starts server at `http://localhost:4000`.
 Server calls are proxied, so `http://localhost:3000/api/users` will hit `http://localhost:4000/api/users` automagically.
+
+To init the database:
+
+```shell
+docker exec -it fssk-server npm run migrate && npm run seed
+```
+
+Log in to the todo app with `test@earthlinginteractive.com`, password `test`.
 
 ## Developing
 
@@ -41,32 +45,37 @@ The current technologies used by fssk are as follows:
 | Testing Framework | [Jest](https://facebook.github.io/jest/) | Complete testing package with an intuitive syntax |
 | Linter | [tslint](https://github.com/palantir/tslint) | Keeps your TypeScript code consistent |
 
+
 ### Prerequisites
 
-- Docker (optional, for postgres instance)
-- NodeJS >= 8.9.0
+- Docker 
 
 ### Setting up Dev
 
-See Getting Started section for steps. If you don't want to use Docker, set up your own postgres instance
-and update the server/.env file to point to it.
+See Getting Started section for steps.
+
+Once spun up, you can shell into the client or server instances like:
+
+```shell
+docker exec -it fssk-client bash
+```
+
+```shell
+docker exec -it fssk-server bash
+```
 
 ### Building
 
 Build client side code:
 
 ```shell
-cd server/ && npm run build
+cd client/ && npm run build
 ```
-
-A production Docker build is coming soon.
 
 ### Deploying / Publishing
 
-Not there yet, but eventually:
-
 ```shell
-docker-compose -f docker-compose-prod.yml up
+docker-compose -f docker-compose-prod.yml up -d
 ```
 
 Will build the client code, spin up the server in a docker instance with / pointing to client's index.html.
@@ -77,16 +86,10 @@ See the .env.example files in client and server directories.
 
 ## Tests
 
-Client and Server code each have their own tests, using Jest.
+Client and Server code each have their own tests, using Jest. Shell into container and run:
 
 ```shell
-cd client && npm test
-```
-
-and 
-
-```shell
-cd server && npm test
+npm test
 ```
 
 ## Style guide
@@ -102,6 +105,30 @@ TBD
 Using postgres v9.6. For local development, database runs in docker container. `db` folder contains 
 init scripts, and `server/db_migrations` contains additional migrations and seeds.
 
+You can connect to the database with your favorite client at `localhost:5432`!
+
 ## Licensing
 
 [MIT License](LICENSE.md)
+
+
+---
+
+## Tips and Tricks
+
+### Windows Line Endings
+
+Make sure git globally has line endings set to LF.  This needs to be set ***before*** cloning the project.
+
+- For windows: `git config --global core.autocrlf false`
+- For linux/mac: `git config --global core.autocrlf input`
+
+If you forget to do this in windows, you make get errors starting docker like `file not found`. 
+Update the line endings of any files that are crlf to lf and try again
+
+### Running without docker
+
+You should be able to run the site locally without docker if desired. Make 
+sure you have node >= v8.9.4. You will need to change the client proxy in
+`client/package.json` to point to `http://localhost:4000`, and the `POSTGRES_HOST` 
+in `server/.env` to `localhost`.

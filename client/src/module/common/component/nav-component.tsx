@@ -22,9 +22,9 @@ export default class NavComponent extends React.Component<any> {
 				>
 					<span className="navbar-toggler-icon" />
 				</button>
-				<a className="navbar-brand" href="#">Full Stack Starter Kit</a>
+				<a className="navbar-brand" href="#">Full Stack Starter Kit!</a>
 
-				<div className="collapse navbar-collapse" id="navbarsExampleDefault">
+				<div className="navbar-collapse" id="navbarsExampleDefault">
 					<ul className="navbar-nav mr-auto">
 						<li className="nav-item active">
 							<a className="nav-link" href="#">To-do List<span className="sr-only">(current)</span></a>

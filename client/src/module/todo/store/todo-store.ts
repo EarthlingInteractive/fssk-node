@@ -32,7 +32,9 @@ export class TodoStore {
 
 	@action public addTodo(todo: TodoModel): TodoModel {
 		const user = authStore.user;
-		todo.user_id = user.id;
+		if (user) {
+			todo.user_id = user.id;
+		}
 		this.todos.push(todo);
 		return todo;
 	}

@@ -2,7 +2,7 @@
   "name": "fssk-server",
   "version": "0.1.0",
   "engines": {
-    "node": ">= 8.9.0"
+    "node": ">= 8.9.4"
   },
   "jest": {
     "transform": {
@@ -23,9 +23,9 @@
     "@types/jest": "21.1.6",
     "@types/node": "8.0.47",
     "@types/passport": "0.4.1",
-		"@types/bookshelf": "0.9.7",
-		"@types/knex": "0.0.64",
-		"@types/validator": "6.3.0",
+    "@types/bookshelf": "0.9.7",
+    "@types/knex": "0.0.64",
+    "@types/validator": "6.3.0",
     "jest": "21.2.1",
     "jest-cli": "21.2.1",
     "nodemon": "1.12.1",
@@ -42,7 +42,7 @@
     "dotenv": "4.0.0",
     "express": "4.16.2",
     "express-session": "1.15.6",
-    "knex": "0.14.0",
+    "knex": "0.14.6",
     "morgan": "1.9.0",
     "mustache-express": "1.2.5",
     "passport": "0.4.0",
@@ -51,6 +51,7 @@
     "validator": "9.1.1"
   },
   "scripts": {
+    "prestart": "npm install",
     "start": "nodemon",
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint --fix src/**/*.ts{,x}",
