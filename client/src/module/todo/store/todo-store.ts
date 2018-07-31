@@ -1,9 +1,11 @@
-import {action, IObservableArray, observable, runInAction, useStrict} from "mobx";
+import {action, configure, IObservableArray, observable, runInAction} from "mobx";
 import fetchUtil from "../../../util/fetch-util";
 import TodoModel, {ITodoModelProps} from "../model/todo-model";
 import authStore from "../../authentication/store/auth-store";
 
-useStrict(true); // don't allow editing of state outside of mobx actions
+configure({
+	enforceActions: true, // don't allow editing of state outside of mobx actions
+});
 
 export class TodoStore {
 	@observable public todos: IObservableArray<TodoModel> = observable.array([]);
