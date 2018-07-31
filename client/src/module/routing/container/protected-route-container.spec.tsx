@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {shallow} from 'enzyme';
+import * as Enzyme from 'enzyme';
 import ProtectedRouteContainer from './protected-route-container';
 import AuthStore from "../../authentication/store/auth-store";
 import {runInAction} from "mobx";
-import { Redirect, Route} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 
 describe('ProtectedRouteContainer', () => {
 	describe('when session is loading', () => {
@@ -11,7 +11,7 @@ describe('ProtectedRouteContainer', () => {
 			runInAction(() => {
 				AuthStore.hasLoadedSession = false;
 			});
-			const wrapper = shallow(<ProtectedRouteContainer />);
+			const wrapper = Enzyme.shallow(<ProtectedRouteContainer />);
 			expect(wrapper).toContainReact(<div>loading...</div>);
 		});
 	});
@@ -29,8 +29,8 @@ describe('ProtectedRouteContainer', () => {
 						id: 1
 					};
 				});
-				const wrapper = shallow(<ProtectedRouteContainer />);
-				expect(wrapper.find(Route)).toBePresent();
+				const wrapper = Enzyme.shallow(<ProtectedRouteContainer />);
+				expect(wrapper.find(Route)).toExist();
 			});
 		});
 		describe('and user is not logged in', () => {
@@ -38,8 +38,8 @@ describe('ProtectedRouteContainer', () => {
 				runInAction(() => {
 					AuthStore.user = null;
 				});
-				const wrapper = shallow(<ProtectedRouteContainer />);
-				expect(wrapper.find(Redirect)).toBePresent();
+				const wrapper = Enzyme.shallow(<ProtectedRouteContainer />);
+				expect(wrapper.find(Redirect)).toExist();
 				expect(wrapper.find(Redirect)).toHaveProp('to', '/login');
 			});
 		});
