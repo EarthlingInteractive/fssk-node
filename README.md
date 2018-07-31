@@ -124,7 +124,12 @@ Make sure git globally has line endings set to LF.  This needs to be set ***befo
 - For linux/mac: `git config --global core.autocrlf input`
 
 If you forget to do this in windows, you make get errors starting docker like `file not found`. 
-Update the line endings of any files that are crlf to lf and try again
+Update the line endings of any files that are crlf to lf and try again.
+
+### Windows Watching
+
+In order for file changes to be picked up by the watchers in client side code, be sure to set `CHOKIDAR_USEPOLLING=true`
+in the `.env` file. 
 
 ### Running without docker
 
