@@ -14,7 +14,8 @@
 	"no-unused-variable": false,
 	"no-this-assignment": false,
 	"jsx-no-multiline-js": false,
-	"jsx-boolean-value": false
+	"jsx-boolean-value": false,
+	"no-implicit-dependencies": [true, "dev"]
   },
   "jsRules": {
 	"curly": true

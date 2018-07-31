@@ -15,7 +15,7 @@
     "test": "react-scripts-ts test --env=jsdom --watchAll",
     "eject": "react-scripts-ts eject",
     "lint": "tslint src/**/*.ts{,x}",
-    "lint:fix": "tslint src/**/*.ts{,x}"
+    "lint:fix": "tslint src/**/*.ts{,x} --fix"
   },
   "dependencies": {
     "autobind-decorator": "2.1.0",
