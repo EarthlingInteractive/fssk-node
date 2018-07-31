@@ -1,5 +1,5 @@
 {
-  "name": "fssk-server",
+  "name": "fssk-node-server",
   "version": "0.1.0",
   "engines": {
     "node": ">= 8.9.4"

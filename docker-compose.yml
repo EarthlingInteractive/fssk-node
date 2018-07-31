@@ -1,11 +1,11 @@
 version: '2'
 services:
-  fssk-client:
+  fssk-node-client:
       build:
         context: ./
         dockerfile: deploy/client.docker
       hostname: 'client'
-      container_name: 'fssk-client'
+      container_name: 'fssk-node-client'
       env_file: ./client/.env
       command: 'npm start'
       ports:
@@ -15,12 +15,12 @@ services:
       working_dir: '/opt/src'
       networks:
         - app
-  fssk-server:
+  fssk-node-server:
       build:
         context: ./
         dockerfile: deploy/server.docker
       hostname: 'server'
-      container_name: 'fssk-server'
+      container_name: 'fssk-node-server'
       env_file: ./server/.env
       command: 'npm start'
       ports:
@@ -29,22 +29,22 @@ services:
         - './server:/opt/src'
       working_dir: '/opt/src'
       depends_on:
-        - fssk-db
+        - fssk-node-db
       links:
-        - 'fssk-db:db'
+        - 'fssk-node-db:db'
       networks:
         - app
-  fssk-db:
+  fssk-node-db:
     environment:
     - 'POSTGRES_USER=root'
     - 'POSTGRES_DB=test'
     - 'POSTGRES_PASSWORD=admin'
     image: 'postgres:9.6'
-    container_name: 'fssk-db'
+    container_name: 'fssk-node-db'
     ports:
       - '5432:5432'
     volumes:
-      - 'fssk-db-data:/var/lib/postgresql/data'
+      - 'fssk-node-db-data:/var/lib/postgresql/data'
       - './db:/docker-entrypoint-initdb.d/'
     networks:
       - app
@@ -52,5 +52,5 @@ networks:
   app:
     driver: bridge
 volumes:
-  fssk-db-data:
-  fssk-server-data:
+  fssk-node-db-data:
+  fssk-node-server-data:

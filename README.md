@@ -19,7 +19,7 @@ Server calls are proxied, so `http://localhost:3000/api/users` will hit `http://
 To init the database:
 
 ```shell
-docker exec -it fssk-server npm run migrate && npm run seed
+docker exec -it fssk-node-server npm run migrate && npm run seed
 ```
 
 Log in to the todo app with `test@earthlinginteractive.com`, password `test`.
@@ -57,11 +57,11 @@ See Getting Started section for steps.
 Once spun up, you can shell into the client or server instances like:
 
 ```shell
-docker exec -it fssk-client bash
+docker exec -it fssk-node-client bash
 ```
 
 ```shell
-docker exec -it fssk-server bash
+docker exec -it fssk-node-server bash
 ```
 
 ### Building

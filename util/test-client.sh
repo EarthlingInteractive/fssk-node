@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker exec -it fssk-client npm test
+docker exec -it fssk-node-client npm test
