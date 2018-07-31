@@ -12,7 +12,7 @@ agree to abide by the project's [code of conduct](https://github.com/EarthlingIn
 Copy `server/.env.example` to `server/.env` and `client/.env.example` to `client/.env`.
     
     cd fssk-node && docker-compose up
-    docker exec -it fssk-server npm run migrate && npm run seed
+    docker exec -it fssk-node-server npm run migrate && npm run seed
 
 ## Make your change
 
@@ -20,13 +20,13 @@ Add tests for your change.
 
 Make sure the tests pass:
 
-    docker exec -it fssk-client npm test
-    docker exec -it fssk-server npm test
+    docker exec -it fssk-node-client npm test
+    docker exec -it fssk-node-server npm test
 
 Lint your code:
 
-      docker exec -it fssk-client npm run lint
-      docker exec -it fssk-server npm run lint
+      docker exec -it fssk-node-client npm run lint
+      docker exec -it fssk-node-server npm run lint
 
 Push to your fork and [submit a pull request][pr].
 

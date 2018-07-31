@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-docker logs -f fssk-client
-docker logs -f fssk-server
-docker logs -f fssk-db
+docker logs -f fssk-node-client
+docker logs -f fssk-node-server
+docker logs -f fssk-node-db

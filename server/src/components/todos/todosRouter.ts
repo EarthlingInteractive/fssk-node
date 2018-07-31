@@ -49,8 +49,8 @@ router.put("/:id", authMiddleware, (req: express.Request, res: express.Response,
 	todo.id = req.params.id;
 
 	todosController.updateTodo(req.body)
-		.then((todo) => {
-			res.json(todo ? todo.toJSON() : {});
+		.then((updatedTodo) => {
+			res.json(updatedTodo ? updatedTodo.toJSON() : {});
 		})
 		.catch((err: Error) => next(err));
 });

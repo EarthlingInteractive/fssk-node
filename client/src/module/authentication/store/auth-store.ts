@@ -1,9 +1,11 @@
-import {action, observable, useStrict} from "mobx";
+import {action, observable, configure} from "mobx";
 import {checkRequiredFields} from "../../../util/validation";
 import * as validator from "validator";
 import fetchUtil from "../../../util/fetch-util";
 
-useStrict(true); // don't allow editing of state outside of mobx actions
+configure({
+	enforceActions: true, // don't allow editing of state outside of mobx actions
+});
 
 export class AuthStore {
 	@observable public email: string = "";
