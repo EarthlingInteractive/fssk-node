@@ -13,10 +13,14 @@ Run the following command:
 $ docker-compose up -d
 ```
 
-This spins up a postgres instance, starts client at `http://localhost:3000` and starts server at `http://localhost:4000`.
-Server calls are proxied, so `http://localhost:3000/api/users` will hit `http://localhost:4000/api/users` automagically.
+This spins up a postgres instance,
+starts the [webpack dev server] at `http://localhost:3000`,
+and starts the back-end server at `http://localhost:4000`.
+The webpack dev server recompiles certain files on the fly and
+forwards everything else (such as web service calls) to the back-end server.
+e.g. `http://localhost:3000/api/users` will be forwarded to `http://localhost:4000/api/users`.
 
-To init the database:
+To initialize the database:
 
 ```shell
 docker exec -it fssk-node-server npm run migrate && npm run seed
