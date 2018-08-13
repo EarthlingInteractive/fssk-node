@@ -14,7 +14,7 @@ $ docker-compose up -d
 ```
 
 This spins up a postgres instance,
-starts the [webpack dev server] at `http://localhost:3000`,
+starts the webpack dev server at `http://localhost:3000`,
 and starts the back-end server at `http://localhost:4000`.
 The webpack dev server recompiles certain files on the fly and
 forwards everything else (such as web service calls) to the back-end server.
