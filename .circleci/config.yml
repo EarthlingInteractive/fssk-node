@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  build_client:
+    docker:
+      - image: circleci/node:8.11.2
+    working_directory: ~/fssk-node/client
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: npm-install
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: test
+          command: npm test
+      - store_test_results:
+          path: build/spec
+  build_server:
+    docker:
+      - image: circleci/node:8.11.2
+        environment:
+        - DBHOST=localhost
+        - PGUSER=ubuntu
+        - DBNAME=circle_test
+      - image: circleci/postgres:9.6
+        environment:
+        - POSTGRES_USER=ubuntu
+        - POSTGRES_DB=circle_test
+    working_directory: ~/fssk-node/server
+    steps:
+      - checkout
+      - run:
+          name: Install postgres client
+          command: sudo apt-get update && sudo apt-get install postgresql-client -y
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: npm-install
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: test
+          command: npm test
+      - store_test_results:
+          path: build/spec
+
