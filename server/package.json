@@ -64,11 +64,7 @@
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint --fix src/**/*.ts{,x}",
     "test": "jest",
-<<<<<<< HEAD
-    "test-coverage": "jest --coverage",
-=======
 		"test:ci": "jest --ci --reporters=default --reporters=jest-junit",
->>>>>>> Add separate npm script for running tests on CI server
     "knex": "knex --knexfile=./src/knexfile.ts",
     "migrate": "npm run knex migrate:latest",
     "migrate:make": "npm run knex migrate:make",
