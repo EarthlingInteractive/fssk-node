@@ -3,7 +3,7 @@ from node:8.11.2
 WORKDIR /opt/src
 COPY ./client .
 
-ENV CHOKIDAR_USEPOLLING true
+ENV CHOKIDAR_USEPOLLING false
 
 EXPOSE 4000
 
