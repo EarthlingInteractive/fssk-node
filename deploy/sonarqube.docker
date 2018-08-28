@@ -1,0 +1,26 @@
+FROM openjdk:8
+
+RUN apt-get update
+RUN apt-get install -y curl git sudo
+
+# Install Node - This allows for scanning of Typescript
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs build-essential
+
+# Set timezone to CST
+ENV TZ=America/Chicago
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /root
+
+# Download, unzip, and install sonarcube
+RUN curl --insecure -o ./sonarscanner.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+RUN unzip sonarscanner.zip
+RUN rm sonarscanner.zip
+RUN mv sonar-scanner-3.2.0.1227-linux sonar-scanner
+
+ENV SONAR_RUNNER_HOME=/root/sonar-scanner
+ENV PATH $PATH:/root/sonar-scanner/bin
+
+# Make sure Sonar uses the provided Java instead glibc one
+RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' /root/sonar-scanner/bin/sonar-scanner

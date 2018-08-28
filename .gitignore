@@ -86,3 +86,9 @@ $RECYCLE.BIN/
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+# SonarQube and Code Coverage
+.scannerwork
+.sonarlint
+/client/coverage
+/server/coverage
