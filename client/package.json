@@ -14,6 +14,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom --watchAll",
     "test:ci": "CI=true react-scripts-ts test --env=jsdom --reporters=default --reporters=jest-junit",
+    "test-coverage": "react-scripts-ts test --env=jsdom --watchAll --coverage",
     "eject": "react-scripts-ts eject",
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint src/**/*.ts{,x} --fix"
@@ -21,6 +22,10 @@
   "jest-junit": {
     "suiteName": "Client-side jest tests",
     "output": "./build/spec/junit.xml"
+  },
+  "jest": {
+    "coverageReporters": ["lcov"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,tsx,ts}"]
   },
   "dependencies": {
     "autobind-decorator": "2.1.0",

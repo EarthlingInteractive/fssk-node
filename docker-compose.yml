@@ -1,5 +1,14 @@
 version: '2'
 services:
+  sonarqube-scanner:
+    build:
+      context: ./
+      dockerfile: deploy/sonarqube.docker
+    hostname: 'sonarqube'
+    container_name: 'sonarqube-scanner'
+    working_dir: '/root/src'
+    networks:
+      - app
   fssk-node-client:
       build:
         context: ./
