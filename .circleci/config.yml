@@ -23,9 +23,9 @@ jobs:
       - run:
           name: test
           working_directory: ./client
-          command: CI=true npm test
+          command: npm run test:ci
       - store_test_results:
-          path: build/spec
+          path: ./client/build/spec
   build_server:
     docker:
       - image: circleci/node:8.11.2
