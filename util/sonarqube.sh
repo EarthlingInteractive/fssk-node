@@ -33,7 +33,7 @@ then
 		sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
 
 		echo "Copying sonar-scanner.properties to SonarScanner"
-		cp sonar-scanner.properties /home/circleci/sonar-scanner/conf/sonar-scanner.properties
+		cp sonar-scanner.properties /root/sonar-scanner/conf/sonar-scanner.properties
 
 		echo "Running SonarQube Scanner ..."
 		sonar-scanner \
