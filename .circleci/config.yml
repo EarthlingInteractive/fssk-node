@@ -93,17 +93,14 @@ jobs:
           path: ./server/build/spec
   code_coverage:
     docker:
-      - image: earthlinginteractive/sonarqube-scanner:latest        
-      - image: circleci/node:8.11.2
-        environment:
-        - DBHOST=localhost
-        - PGUSER=ubuntu
-        - DBNAME=circle_test
-    working_directory: ~/fssk-node        
+      - image: earthlinginteractive/sonarqube-scanner:latest
+    working_directory: ~/fssk-node
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "server/package.json" }}
+      - restore_cache:
+          key: dependency-cache-{{ checksum "client/package.json" }}
       - attach_workspace:
           at: .
       - run:
