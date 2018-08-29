@@ -58,8 +58,8 @@ jobs:
       - store_test_results:
           path: build/spec
 workflows:
-	version: 2
-	build_and_test:
-		jobs:
-		- build_client
-		- build_server
+  version: 2
+  build_and_test:
+    jobs:
+      - build_client
+      - build_server
