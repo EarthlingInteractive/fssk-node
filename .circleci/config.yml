@@ -60,9 +60,9 @@ jobs:
       - run:
           name: test
           working_directory: ./server
-          command: npm test
+          command: npm run test:ci
       - store_test_results:
-          path: build/spec
+          path: ./server/build/spec
 workflows:
   version: 2
   build_and_test:
