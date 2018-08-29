@@ -38,9 +38,10 @@ then
 			-v $(pwd)/sonar-scanner.properties:/root/sonar-scanner/conf/sonar-scanner.properties \
 			-e SONARQUBE_LOGIN_TOKEN=$SONARQUBE_LOGIN_TOKEN \
 			-e SONARQUBE_GITHUB_OAUTH=$SONARQUBE_GITHUB_OAUTH \
-			fssk-node_sonarqube-scanner sonar-scanner \
+			earthlinginteractive/sonarqube-scanner sonar-scanner \
 			-X -Dsonar.analysis.mode=preview \
 			-Dsonar.github.pullRequest=${PR_NUMBER}
+	fi
 else
   printf "SonarQube analysis step can only be run in Circle CI Environments. \n"
 fi
