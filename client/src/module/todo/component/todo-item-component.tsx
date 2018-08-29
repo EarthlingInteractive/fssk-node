@@ -26,7 +26,7 @@ export default class TodoItemComponent extends React.Component<ITodoItemComponen
 	constructor(props: any) {
 		super(props);
 		this.state = {
-			editable: props.todo.title ? false : true,
+			editable: !props.todo.title,
 			title: props.todo.title,
 		};
 	}

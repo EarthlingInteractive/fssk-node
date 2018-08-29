@@ -11,17 +11,14 @@ export class TodoStore {
 	@observable public todos: IObservableArray<TodoModel> = observable.array([]);
 
 	@action.bound public updateField(todoIndex: number) {
-			return action((field: string, val: string) => {
-					switch (field) {
-						case "title":
-							this.todos[todoIndex].title = val;
-							break;
-
-						default:
-							this.handleError(new Error(`Something tried to update a field named ${field} in the todo store`));
-							return;
-					}
-				});
+		return action((field: string, val: string) => {
+			if (field == "title") {
+				this.todos[todoIndex].title = val;
+			} else {
+				this.handleError(new Error(`Something tried to update a field named ${field} in the todo store`));
+				return;
+			}
+		});
 	}
 
 	@action.bound public cancelUpdate(index: number, val: string) {
