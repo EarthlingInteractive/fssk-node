@@ -117,6 +117,6 @@ workflows:
       - build_client
       - test_server
       - code_coverage:
-        requires:
-          - test_client
-          - test_server
+          requires:
+            - test_client
+            - test_server
