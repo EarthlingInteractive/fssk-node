@@ -93,12 +93,12 @@ jobs:
           path: ./server/build/spec
   code_coverage:
     docker:
-      - image: earthlinginteractive/sonarqube-scanner
       - image: circleci/node:8.11.2
         environment:
         - DBHOST=localhost
         - PGUSER=ubuntu
         - DBNAME=circle_test
+      - image: earthlinginteractive/sonarqube-scanner        
     working_directory: ~/fssk-node        
     steps:
       - checkout
