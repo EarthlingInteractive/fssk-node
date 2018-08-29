@@ -102,6 +102,7 @@ jobs:
     working_directory: ~/fssk-node        
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           key: dependency-cache-{{ checksum "server/package.json" }}
       - attach_workspace:
