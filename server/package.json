@@ -17,8 +17,12 @@
       "jsx",
       "json"
     ],
-    "coverageReporters": ["lcov"],
-    "collectCoverageFrom": ["src/**/*.{js,jsx,tsx,ts}"]    
+    "coverageReporters": [
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,tsx,ts}"
+    ]
   },
   "jest-junit": {
     "suiteName": "Server-side jest tests",
@@ -64,7 +68,11 @@
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint --fix src/**/*.ts{,x}",
     "test": "jest",
+<<<<<<< HEAD
 		"test:ci": "jest --ci --reporters=default --reporters=jest-junit",
+=======
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage",
+>>>>>>> Changed circleci to support a sonarqube post test step, and reintroduced a sonarqube complaint to test pull request functionality.
     "knex": "knex --knexfile=./src/knexfile.ts",
     "migrate": "npm run knex migrate:latest",
     "migrate:make": "npm run knex migrate:make",
