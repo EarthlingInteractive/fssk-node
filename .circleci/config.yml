@@ -23,7 +23,7 @@ jobs:
       - run:
           name: test
           working_directory: ./client
-          command: npm test
+          command: CI=true npm test
       - store_test_results:
           path: build/spec
   build_server:
