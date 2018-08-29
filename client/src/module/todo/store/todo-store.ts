@@ -12,7 +12,7 @@ export class TodoStore {
 
 	@action.bound public updateField(todoIndex: number) {
 		return action((field: string, val: string) => {
-			if (field == "title") {
+			if (field === "title") {
 				this.todos[todoIndex].title = val;
 			} else {
 				this.handleError(new Error(`Something tried to update a field named ${field} in the todo store`));
