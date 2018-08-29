@@ -93,7 +93,7 @@ jobs:
           path: ./server/build/spec
   code_coverage:
     docker:
-      - image: earthlinginteractive/sonarqube-scanner:latest
+      - image: earthlinginteractive/sonarqube-scanner:3.2.0
     working_directory: ~/fssk-node
     steps:
       - checkout
