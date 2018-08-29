@@ -35,13 +35,13 @@ export default class TodoModel {
 	}
 
 	@action public updateField(field: string, val: string) {
-		switch(field) {
+		switch (field) {
 			case "title":
 				this.title = val;
 				break;
 			default:
 				console.log("error updating todo field");
-				return;			
+				return;
 		}
 	}
 
