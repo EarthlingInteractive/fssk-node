@@ -29,16 +29,14 @@ then
 		PR_NUMBER=`echo "${CIRCLE_PULL_REQUEST}" | sed -e 's/.*\///g'`
 
 		echo "Converting LCOV files to have valid relative paths ..."
-		sed -i.bak 's|SF:/opt/src/src|SF:client/src|g' client/coverage/lcov.info
-		sed -i.bak 's|SF:/opt/src/src|SF:server/src|g' server/coverage/lcov.info
+		sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" client/coverage/lcov.info
+		sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
+
+		echo "Copying sonar-scanner.properties to SonarScanner"
+		cp sonar-scanner.properties /home/circleci/sonar-scanner/conf/sonar-scanner.properties
 
 		echo "Running SonarQube Scanner ..."
-		docker run -it \
-			-v $(pwd):/root/src \
-			-v $(pwd)/sonar-scanner.properties:/root/sonar-scanner/conf/sonar-scanner.properties \
-			-e SONARQUBE_LOGIN_TOKEN=$SONARQUBE_LOGIN_TOKEN \
-			-e SONARQUBE_GITHUB_OAUTH=$SONARQUBE_GITHUB_OAUTH \
-			earthlinginteractive/sonarqube-scanner sonar-scanner \
+		sonar-scanner \
 			-X -Dsonar.analysis.mode=preview \
 			-Dsonar.github.pullRequest=${PR_NUMBER}
 	fi
