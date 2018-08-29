@@ -3,23 +3,26 @@ jobs:
   build_client:
     docker:
       - image: circleci/node:8.11.2
-    working_directory: ~/fssk-node/client
+    working_directory: ~/fssk-node
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
           name: npm-install
+          working_directory: ./client
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
           paths:
-            - ./node_modules
+            - ./client/node_modules
       - run:
           name: lint
+          working_directory: ./client
           command: npm run lint
       - run:
           name: test
+          working_directory: ./client
           command: npm test
       - store_test_results:
           path: build/spec
@@ -34,26 +37,29 @@ jobs:
         environment:
         - POSTGRES_USER=ubuntu
         - POSTGRES_DB=circle_test
-    working_directory: ~/fssk-node/server
+    working_directory: ~/fssk-node
     steps:
       - checkout
       - run:
           name: Install postgres client
           command: sudo apt-get update && sudo apt-get install postgresql-client -y
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "server/package.json" }}
       - run:
           name: npm-install
+          working_directory: ./server
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "server/package.json" }}
           paths:
-            - ./node_modules
+            - ./server/node_modules
       - run:
           name: lint
+          working_directory: ./server
           command: npm run lint
       - run:
           name: test
+          working_directory: ./server
           command: npm test
       - store_test_results:
           path: build/spec
