@@ -29,8 +29,8 @@ then
 		PR_NUMBER=`echo "${CIRCLE_PULL_REQUEST}" | sed -e 's/.*\///g'`
 
 		echo "Converting LCOV files to have valid relative paths ..."
-		sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" client/coverage/lcov.info
-		sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
+		sed -i.bak "s|SF:/root/${CIRCLE_PROJECT_REPONAME}/|SF:|g" client/coverage/lcov.info
+		sed -i.bak "s|SF:/root/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
 
 		echo "Copying sonar-scanner.properties to SonarScanner"
 		cp sonar-scanner.properties /root/sonar-scanner/conf/sonar-scanner.properties
