@@ -39,7 +39,6 @@ export default class TodoModel {
 			case "title":
 				this.title = val;
 				break;
-
 			default:
 				console.log("error updating todo field");
 				return;
