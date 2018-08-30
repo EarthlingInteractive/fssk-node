@@ -7,19 +7,22 @@ RUN apt-get install -y curl git sudo
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs build-essential
 
-RUN npm install -g typescript
-
 # Set timezone to CST
 ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /root
 
+ENV SONAR_SCANNER_VERSION 3.2.0.1227
+
+# Install typescript and tslint
+RUN npm install typescript tslint
+
 # Download, unzip, and install sonarcube
-RUN curl --insecure -o ./sonarscanner.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+RUN curl --insecure -o ./sonarscanner.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
 RUN unzip sonarscanner.zip
 RUN rm sonarscanner.zip
-RUN mv sonar-scanner-3.2.0.1227-linux sonar-scanner
+RUN mv sonar-scanner-${SONAR_SCANNER_VERSION}-linux sonar-scanner
 
 ENV SONAR_RUNNER_HOME=/root/sonar-scanner
 ENV PATH $PATH:/root/sonar-scanner/bin
