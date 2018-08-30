@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+function covert_lcov_files {
+	echo "Converting LCOV files to have valid relative paths ..."
+	sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" client/coverage/lcov.info
+	sed -i.bak "s|SF:/home/circleci/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
+}
+
+function copy_configuration {
+	echo "Copying sonar-scanner.properties to SonarScanner"
+	cp sonar-scanner.properties /root/sonar-scanner/conf/sonar-scanner.properties
+}
+
 # Only run in circleci environments
 if [[ ${CIRCLECI} ]];
 then
@@ -24,16 +35,23 @@ then
 	fi
 
 	if [[ ! "${CIRCLE_PULL_REQUEST}" =~ /pull/[0-9]+$ ]]; then
-		echo "Not a pull request."
+		# IF this is the full coverage job
+		if [ "$CIRCLE_JOB" == "full_coverage" ]
+		then
+			covert_lcov_files
+			copy_configuration
+
+			echo "Running SonarQube Scanner ..."
+			sonar-scanner
+		else
+			echo "Running incomplete coverage job - not doing full SonarQube Scan.."
+		fi	
+		
 	else
 		PR_NUMBER=`echo "${CIRCLE_PULL_REQUEST}" | sed -e 's/.*\///g'`
 
-		echo "Converting LCOV files to have valid relative paths ..."
-		sed -i.bak "s|SF:/root/${CIRCLE_PROJECT_REPONAME}/|SF:|g" client/coverage/lcov.info
-		sed -i.bak "s|SF:/root/${CIRCLE_PROJECT_REPONAME}/|SF:|g" server/coverage/lcov.info
-
-		echo "Copying sonar-scanner.properties to SonarScanner"
-		cp sonar-scanner.properties /root/sonar-scanner/conf/sonar-scanner.properties
+		covert_lcov_files
+		copy_configuration
 
 		echo "Running SonarQube Scanner ..."
 		sonar-scanner \
