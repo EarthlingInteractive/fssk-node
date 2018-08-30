@@ -34,9 +34,11 @@ then
 		echo "Found coverage files for server."
 	fi
 
+	# IF this is not a pull request
 	if [[ ! "${CIRCLE_PULL_REQUEST}" =~ /pull/[0-9]+$ ]]; then
-		# IF this is the full coverage job
-		if [ "$CIRCLE_JOB" == "full_coverage" ]
+		# Detect the CircleCI job that is running to determine if we need to update
+		# SonarQube with coverage data
+		if [ "$CIRCLE_JOB" == "nightly_coverage" ]
 		then
 			covert_lcov_files
 			copy_configuration
@@ -48,6 +50,7 @@ then
 		fi	
 		
 	else
+		# This is a pull request - so get the PR number from the PR Url
 		PR_NUMBER=`echo "${CIRCLE_PULL_REQUEST}" | sed -e 's/.*\///g'`
 
 		covert_lcov_files

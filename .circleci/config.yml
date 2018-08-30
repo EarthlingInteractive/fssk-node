@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Analyze data for SonarQube
           command: util/sonarqube.sh
-  full_coverage:
+  nightly_coverage:
     <<: *code_coverage
 workflows:
   version: 2
@@ -130,7 +130,7 @@ nightly:
   jobs:
     - test_client
     - test_server
-    - full_coverage:
+    - nightly_coverage:
         requires:
           - test_client
           - test_server
