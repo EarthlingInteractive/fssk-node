@@ -24,6 +24,10 @@ jobs:
           name: test
           working_directory: ./client
           command: npm run test:ci
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./client/coverage
       - store_test_results:
           path: ./client/build/spec
   build_client:
@@ -81,8 +85,29 @@ jobs:
           name: test
           working_directory: ./server
           command: npm run test:ci
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./server/coverage
       - store_test_results:
           path: ./server/build/spec
+  code_coverage: &code_coverage
+    docker:
+      - image: earthlinginteractive/sonarqube-scanner:3.2.0
+    working_directory: ~/fssk-node
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "server/package.json" }}
+      - restore_cache:
+          key: dependency-cache-{{ checksum "client/package.json" }}
+      - attach_workspace:
+          at: .
+      - run:
+          name: Analyze data for SonarQube
+          command: util/sonarqube.sh
+  nightly_coverage:
+    <<: *code_coverage
 workflows:
   version: 2
   build_and_test:
@@ -90,3 +115,22 @@ workflows:
       - test_client
       - build_client
       - test_server
+      - code_coverage:
+          requires:
+            - test_client
+            - test_server
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test_client
+      - test_server
+      - nightly_coverage:
+          requires:
+            - test_client
+            - test_server
