@@ -119,18 +119,18 @@ workflows:
           requires:
             - test_client
             - test_server
-nightly:
-  triggers:
-    - schedule:
-        cron: "0 0 * * *"
-        filters:
-          branches:
-            only:
-              - master
-  jobs:
-    - test_client
-    - test_server
-    - nightly_coverage:
-        requires:
-          - test_client
-          - test_server
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test_client
+      - test_server
+      - nightly_coverage:
+          requires:
+            - test_client
+            - test_server

@@ -46,7 +46,7 @@ then
 			echo "Running SonarQube Scanner ..."
 			sonar-scanner
 		else
-			echo "Running incomplete coverage job - not doing full SonarQube Scan.."
+			echo "Not doing full SonarQube Scan because not a pull request, or a nightly job."
 		fi	
 		
 	else
@@ -56,11 +56,11 @@ then
 		covert_lcov_files
 		copy_configuration
 
-		echo "Running SonarQube Scanner ..."
+		echo "Running SonarQube Scanner for pull request #${PR_NUMBER} ..."
 		sonar-scanner \
 			-X -Dsonar.analysis.mode=preview \
 			-Dsonar.github.pullRequest=${PR_NUMBER}
 	fi
 else
-  printf "SonarQube analysis step can only be run in Circle CI Environments. \n"
+  printf "SonarQube analysis can only be run in Circle CI Environments. \n"
 fi
