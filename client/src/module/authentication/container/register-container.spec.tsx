@@ -3,7 +3,7 @@ import * as Enzyme from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import RegisterContainer from "../container/register-container";
 import * as fetchUtils from "../../../util/fetch-util";
-import fetchMock from "fetch-mock";
+import * as fetchMock from "fetch-mock";
 
 const validData = {
 	email: "test@test.com",

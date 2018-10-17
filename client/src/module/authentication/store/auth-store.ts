@@ -180,9 +180,7 @@ export class AuthStore {
 		} else if (error.status === 500) {
 			if (error.json && error.json.message === "email is not unique") {
 				this.emailError = "A user already exists with this email";
-			} /*else if (error.json && error.json.fields === "email" && error.json.validationType === "Value must be unique") {
-				this.emailError = "A user already exists with this email";
-			}*/
+			}
 		}
 	}
 
