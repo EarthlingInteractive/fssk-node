@@ -146,9 +146,9 @@ describe("AuthStore", () => {
 
 		it("should handle non-unique email errors", () => {
 			fetchMock.post("*", {
-				status: 400,
+				status: 500,
 				headers: {"Content-Type":  "application/json"},
-				body: {fields: "email", validationType: "Value must be unique"},
+				body: {message: "email is not unique"},
 			});
 
 			return authStore.register().then(() => {

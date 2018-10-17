@@ -57,7 +57,7 @@ export class AuthStore {
 		const {email, name, password} = this;
 
 		try {
-			await fetchUtil("/api/auth/register", {
+			await fetchUtil("/api/users/register", {
 				body: {
 					email,
 					name,
@@ -177,11 +177,12 @@ export class AuthStore {
 			// but we only want the error message at the bottom (under password)
 			this.emailError = " ";
 			this.passwordError = "Incorrect email or password";
-		} else if (error.json
-				&& error.json.fields === "email"
-				&& error.json.validationType === "Value must be unique"
-		) {
-			this.emailError = "A user already exists with this email";
+		} else if (error.status === 500) {
+			if (error.json && error.json.message === "email is not unique") {
+				this.emailError = "A user already exists with this email";
+			} /*else if (error.json && error.json.fields === "email" && error.json.validationType === "Value must be unique") {
+				this.emailError = "A user already exists with this email";
+			}*/
 		}
 	}
 

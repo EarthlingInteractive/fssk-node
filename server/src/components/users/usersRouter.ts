@@ -38,7 +38,7 @@ router.get("/:id/todos", authMiddleware, (req: any, res: express.Response, next:
 });
 
 // you do not need to be authenticated to register an account
-router.post("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.post("/register", (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	return usersController.createUser(req.body)
 		.then((user) => res.json(user ? user.toJSON() : {}))
 		.catch((err: Error) => next(err));
