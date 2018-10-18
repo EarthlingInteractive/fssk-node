@@ -30,8 +30,8 @@ export default class TodosController {
 			throw new Error("Invalid ID");
 		}
 		const collection = await new TodoModel()
-			.orderBy('order')
-			.orderBy('created_at')
+			.orderBy("order")
+			.orderBy("created_at")
 			.where({user_id: userId})
 			.fetchAll()
 			.catch(handleDatabaseErrors);
