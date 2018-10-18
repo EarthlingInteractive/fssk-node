@@ -15,7 +15,7 @@ describe("TodoStore", () => {
 
 		it ("should save todo with given props", () => {
 			// Mock our save to return a saved model with a new id
-			const responsePostBody = {id: "1", title: "So Long"}
+			const responsePostBody = {id: "1", title: "So Long"};
 			fetchMock.post("*", {
 				status: 201,
 				headers: {"Content-Type":  "application/json"},
@@ -30,7 +30,7 @@ describe("TodoStore", () => {
 			return store.saveTodo(testModel).then((savedTodo) => {
 				// We should get a todo that was saved
 				expect(savedTodo).toBeDefined();
-				if(savedTodo) {
+				if (savedTodo) {
 					// Expect the todo we saved to be equal the one we posted
 					expect(savedTodo.id).toEqual(responsePostBody.id);
 					expect(savedTodo.title).toEqual(responsePostBody.title);
@@ -44,7 +44,7 @@ describe("TodoStore", () => {
 				}
 			});
 		});
-	})
+	});
 
 	describe("saveAndAddTodo", () => {
 		const testProps = { id: "1", title: "Hello" };
