@@ -54,6 +54,7 @@ export default class TodoItemComponent extends React.Component<ITodoItemComponen
 						inputClass="form-control"
 						type="text"
 						name="title"
+						autoFocus
 						placeholder="What do you need to do?"
 						value={this.props.todo.title}
 						onChange={this.props.updateField(this.props.todoIndex)}
@@ -80,7 +81,7 @@ export default class TodoItemComponent extends React.Component<ITodoItemComponen
 	private renderTodoItem() {
 		return (
 			<div className="form-row">
-				<div className="col-sm-10">
+				<div className="col-10">
 					<div className="form-check">
 						<input
 							className="form-check-input"
