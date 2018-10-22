@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import RegisterContainer from "../container/register-container";
 import * as fetchUtils from "../../../util/fetch-util";
 import * as fetchMock from "fetch-mock";
+import * as waitForExpect from "wait-for-expect";
 
 const validData = {
 	email: "test@test.com",
@@ -36,14 +37,32 @@ function fillOutForm(wrapper) {
 	passwordConfirmField.simulate("change").simulate("blur");
 }
 
-function submitForm(wrapper) {
-	// Finds the form on the container and simulate hitting the 'register' button
+function checkDidSubmitForm(wrapper) {
+	// Get instance of register container
+	const registerContainerInstance = wrapper.find("RegisterContainer").instance();
+
+	// Setup spy on the submit method in instance, and update container
+	const spy = spyOn(registerContainerInstance, "submit");
+	wrapper.update();
+
+	// Need the container instance to update itself as well
+	// (sometimes wrapper.update doesn't actually update the component)
+	registerContainerInstance.forceUpdate();
+
+	// Find the form in our container
 	const form = wrapper.find("form");
 	expect(form).toHaveLength(1);
 	form.simulate("submit");
-	// Wait a few seconds to the events to propagate - there are no promises we can wait for
-	// at the wrapper level to see if this is done so this is the next best thing for now
-	return new Promise((resolve) => setTimeout(resolve, 4000));
+
+	// Wait for our submit to have been called
+	return waitForExpect(() => {
+		return expect(spy).toHaveBeenCalled();
+	});
+}
+
+function submitForm(wrapper) {
+	const wrapperContainer = wrapper.find("RegisterContainer");
+	return wrapperContainer.instance().submit();
 }
 
 describe("RegisterContainer", () => {
@@ -63,16 +82,22 @@ describe("RegisterContainer", () => {
 			wrapper = Enzyme.mount(<Router><RegisterContainer/></Router>);
 		});
 
-		afterEach(fetchMock.restore);
-
-		it ("can fill out entire form", () => {
-			fillOutForm(wrapper);
+		afterEach(() => {
+			fetchMock.restore();
+			jest.restoreAllMocks();
 		});
 
-		it ("can submit registration", async () => {
+		it ("can fill out entire form and submit", async () => {
+			fillOutForm(wrapper);
+			await checkDidSubmitForm(wrapper);
+		});
+
+		it ("submits registration to api", async () => {
+			// Fillout form and spy on api calls
 			fillOutForm(wrapper);
 			const fetchSpy = spyOn(fetchUtils, "default");
 
+			// Submit the form
 			await submitForm(wrapper);
 
 			// Expect the registration api call with the content we entered
@@ -86,7 +111,7 @@ describe("RegisterContainer", () => {
 			});
 		});
 
-		it ("attempts a login after registration", async () => {
+		it ("attempts a login after valid registration", async () => {
 			fillOutForm(wrapper);
 
 			// Mock the registration response
