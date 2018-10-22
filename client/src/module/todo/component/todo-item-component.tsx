@@ -8,7 +8,7 @@ interface ITodoItemComponentProps {
 	todo: TodoModel;
 	todoIndex: number;
 	updateField: (todoIndex: number) => (name: string, value: string) => void;
-	cancelAdd: () => void;
+	cancelAdd: (todo: TodoModel) => void;
 	cancelUpdate: (todoIndex: number, val: string) => void;
 	saveTodo: (todo: TodoModel) => void;
 	updateTodo: (todo: TodoModel, newProps: ITodoModelProps) => void;
@@ -32,64 +32,85 @@ export default class TodoItemComponent extends React.Component<ITodoItemComponen
 	}
 
 	public render() {
-		const todoitem = this.renderTodoItem();
+		const todoElement = this.state.editable ? this.renderTodoForm() : this.renderTodoItem();
 		return (
 			<li className="list-group-item list-group-flush">
-				<div className="form-check">
-					<input
-						className="form-check-input"
-						type="checkbox"
-						id={this.props.todo.id}
-						checked={!!this.props.todo.completed}
-						onChange={this.toggleCompleted}
-					/>
-					{todoitem}
-				</div>
+				{todoElement}
 			</li>
 		);
 	}
 
-	private renderTodoItem() {
-		if (this.state.editable) {
-			return (
-				<div className="form-inline">
-				<FormInput
+	@autobind
+	private submitTodoForm(event: any) {
+		event.preventDefault();
+		this.updateTodo();
+	}
+
+	private renderTodoForm() {
+		return (
+			<form className="form-row" onSubmit={this.submitTodoForm}>
+				<div className="col-10">
+					<FormInput
 						inputClass="form-control"
 						type="text"
 						name="title"
+						autoFocus
 						placeholder="What do you need to do?"
 						value={this.props.todo.title}
 						onChange={this.props.updateField(this.props.todoIndex)}
-						size={40}
-				/>
-				<button
-					className="btn btn-primary btn-sm"
-					onClick={this.updateTodo}
-				>Save
-				</button>
-				<button
-					className="btn btn-outline-secondary btn-sm"
-					onClick={this.cancelUpdateTodo}
-				>Cancel
-				</button>
+					/>
 				</div>
-			);
-		} else {
-			return (
-				<div className="form-inline">
-					<label className="form-check-label"  htmlFor={this.props.todo.id}>
-						{!this.state.editable && <span>{this.state.title} (updated {this.props.todo.timeSinceUpdated()})</span>}
-					</label>
-					<button className="btn btn-outline-primary btn-sm" onClick={this.enableEditing}>Update</button>
+				<div className="col-1">
+					<button
+						className="btn btn-primary btn-sm"
+						type="submit"
+					>Save
+					</button>
+				</div>
+				<div className="col-1">
+					<button
+						className="btn btn-outline-secondary btn-sm"
+						onClick={this.cancelUpdateTodo}
+					>Cancel
+					</button>
+				</div>
+			</form>
+		);
+	}
+
+	private renderTodoItem() {
+		return (
+			<div className="form-row">
+				<div className="col-10">
+					<div className="form-check">
+						<input
+							className="form-check-input"
+							type="checkbox"
+							id={this.props.todo.id}
+							checked={!!this.props.todo.completed}
+							onChange={this.toggleCompleted}
+						/>
+						<label className="form-check-label"  htmlFor={this.props.todo.id}>
+							{!this.state.editable && <span>{this.state.title} <em>(updated {this.props.todo.timeSinceUpdated()})</em></span>}
+						</label>
+					</div>
+				</div>
+				<div className="col-1">
+					<button
+						className="btn btn-outline-primary btn-sm"
+						onClick={this.enableEditing}
+					>Update
+					</button>
+				</div>
+				<div className="col-1">
 					<button
 						className="btn btn-link btn-sm"
 						onClick={this.deleteTodo}
 					>Delete
 					</button>
 				</div>
-			);
-
-		}
+			</div>
+		);
 	}
 
 	@autobind
@@ -123,7 +144,7 @@ export default class TodoItemComponent extends React.Component<ITodoItemComponen
 	@autobind
 	private cancelUpdateTodo() {
 		if (!this.state.title) {
-			this.props.cancelAdd();
+			this.props.cancelAdd(this.props.todo);
 		} else {
 			this.props.cancelUpdate(this.props.todoIndex, this.state.title);
 			this.setState({ editable: false });

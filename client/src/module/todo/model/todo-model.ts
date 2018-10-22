@@ -6,8 +6,8 @@ export interface ITodoModelProps {
 	title?: string;
 	order?: number;
 	completed?: boolean;
-	createdAt?: string;
-	updatedAt?: string;
+	created_at?: string;
+	updated_at?: string;
 	user_id?: string;
 }
 
@@ -52,8 +52,8 @@ export default class TodoModel {
 			if (props.order) { this.order = props.order; }
 			if (props.completed !== undefined) { this.completed = props.completed; }
 			if (props.user_id !== undefined) { this.user_id = props.user_id; }
-			if (props.createdAt) { this.createdAt = props.createdAt; }
-			if (props.updatedAt) { this.updatedAt = props.updatedAt; }
+			if (props.created_at) { this.createdAt = props.created_at; }
+			if (props.updated_at) { this.updatedAt = props.updated_at; }
 		});
 	}
 

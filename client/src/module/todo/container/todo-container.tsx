@@ -38,9 +38,17 @@ export default class TodoContainer extends React.Component<any> {
 					<div className="card" style={cardStyle}>
 						<h2 className="card-header">To-Do List</h2>
 						<ul className="list-group list-group-flush">
-							{TodoStore.todos.map((todo: TodoModel, i: number) =>
-								<TodoItemComponent key={i} todo={todo} todoIndex={i} {...eventHandlers}/>,
-							)}
+							{TodoStore.todos.map((todo: TodoModel, i: number) => {
+								const itemComponentKey = todo && todo.id ? `id-${todo.id}` : `new-${i}`;
+								return (
+									<TodoItemComponent
+										key={`ItemComponent-${itemComponentKey}`}
+										todo={todo}
+										todoIndex={i}
+										{...eventHandlers}
+									/>
+								);
+							})}
 							<li className="list-group-item"><button className="btn btn-success" onClick={this.addTodo}>+</button></li>
 						</ul>
 					</div>
@@ -55,7 +63,7 @@ export default class TodoContainer extends React.Component<any> {
 	}
 
 	private saveTodo(todo: TodoModel) {
-		TodoStore.saveAndAddTodo(todo);
+		TodoStore.saveTodo(todo);
 	}
 
 	private updateTodo(todo: TodoModel, newProps: ITodoModelProps) {
