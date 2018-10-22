@@ -25,8 +25,8 @@ export class TodoStore {
 		this.todos[index].title = val;
 	}
 
-	@action.bound public cancelAdd() {
-		this.todos.pop();
+	@action.bound public cancelAdd(todo: TodoModel) {
+		this.deleteTodo(todo);
 	}
 
 	@action public addTodo(todo: TodoModel): TodoModel {
@@ -54,6 +54,19 @@ export class TodoStore {
 		}
 	}
 
+	@action public async saveTodo(todo: TodoModel): Promise<TodoModel | undefined> {
+		try {
+			const todoData: any = await fetchUtil("/api/todos", {
+				body: todo.getPostProperties(),
+				method: "POST",
+			});
+			todo.setProperties(todoData);
+		} catch (error) {
+			this.handleError(error);
+		}
+		return todo;
+	}
+
 	@action public async saveAndAddTodo(todo: TodoModel): Promise<TodoModel | undefined> {
 		let addedTodo: TodoModel | undefined;
 		try {
@@ -61,7 +74,7 @@ export class TodoStore {
 				body: todo.getPostProperties(),
 				method: "POST",
 			});
-			this.cancelAdd();
+			this.cancelAdd(todo);
 			addedTodo = this.addTodo(new TodoModel(todoData));
 		} catch (error) {
 			this.handleError(error);
@@ -94,8 +107,6 @@ export class TodoStore {
 		}
 		return todo;
 	}
-
-
 
 	@action private deleteTodo(todo: TodoModel): void {
 		let idx: number;

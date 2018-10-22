@@ -15,6 +15,7 @@ interface IFormInputProps {
 	errorClass?: string;
 	readonly?: boolean;
 	disabled?: boolean;
+	autoFocus?: boolean;
 	size?: number;
 	maxLength?: number;
 }
@@ -37,6 +38,7 @@ const formInput: React.StatelessComponent<IFormInputProps> = ({
 	errorClass,
 	readonly,
 	disabled,
+	autoFocus,
 	size,
 	maxLength,
 	}) => {
@@ -61,6 +63,7 @@ const formInput: React.StatelessComponent<IFormInputProps> = ({
 				readOnly={readonly}
 				disabled={disabled}
 				size={size}
+				autoFocus={autoFocus}
 				maxLength={maxLength}
 			/>
 
@@ -79,6 +82,7 @@ formInput.defaultProps = {
 	type: "text",
 	error: "",
 	placeholder: "",
+	autoFocus: false,
 };
 
 export default formInput;
