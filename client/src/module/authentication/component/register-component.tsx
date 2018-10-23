@@ -38,14 +38,12 @@ export default class RegisterComponent extends React.Component<IRegisterComponen
 		} = this.props;
 
 		return (
-			<div className="dsk-Admin-form login">
-				<div className="dsk-AdminLogin__content">
-					<div className="dsk-Admin-form__title">
+			<div className="dsk-Admin-form login container d-flex justify-content-center ">
+				<div className="dsk-AdminLogin__content d-flex flex-column justify-content-center">
+					<div className="dsk-Admin-form__title d-flex justify-content-center">
 						Application Registration
 					</div>
 					<form onSubmit={this.onSubmit}>
-
-
 						<FormInput
 							label="name"
 							name="name"
@@ -54,7 +52,7 @@ export default class RegisterComponent extends React.Component<IRegisterComponen
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
 
@@ -67,7 +65,7 @@ export default class RegisterComponent extends React.Component<IRegisterComponen
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
 
@@ -80,7 +78,7 @@ export default class RegisterComponent extends React.Component<IRegisterComponen
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
 
@@ -93,10 +91,10 @@ export default class RegisterComponent extends React.Component<IRegisterComponen
 							onChange={updateField}
 							fieldsetClass="dsk-Admin-form__item"
 							labelClass="dsk-Admin-form__label"
-							inputClass="dsk-Admin-form__input"
+							inputClass="dsk-Admin-form__input form-control"
 							errorClass="dsk-Admin-form__error"
 						/>
-						<input type="submit" value="Register Account" className="dsk-Admin-form__submit" />
+						<input type="submit" value="Register Account" className="dsk-Admin-form__submit btn btn-primary" />
 					</form>
 
 					<p className="dsk-Admin-form__text a-text-align-center">

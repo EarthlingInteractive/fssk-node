@@ -23,8 +23,12 @@
     "output": "./build/spec/junit.xml"
   },
   "jest": {
-    "coverageReporters": ["lcov"],
-    "collectCoverageFrom": ["src/**/*.{js,jsx,tsx,ts}"]
+    "coverageReporters": [
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,tsx,ts}"
+    ]
   },
   "dependencies": {
     "autobind-decorator": "2.1.0",
@@ -39,7 +43,8 @@
     "react-router-dom": "4.3.1",
     "react-scripts-ts": "2.16.0",
     "reactstrap": "6.3.1",
-    "validator": "10.4.0"
+    "validator": "10.4.0",
+    "wait-for-expect": "1.0.1"
   },
   "devDependencies": {
     "@types/classnames": "2.2.6",
