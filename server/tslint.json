@@ -4,7 +4,6 @@
 		"curly": true,
 		"indent": [true, "tabs"],
 		"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
-		"no-console": false,
 		"no-consecutive-blank-lines": false,
 		"no-object-literal-type-assertion": false,
 		"no-string-literal": false,

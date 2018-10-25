@@ -2,6 +2,7 @@ import * as express from "express";
 import {adminAuthMiddleware, authMiddleware} from "../auth";
 import UsersController from "./index";
 import TodosController from "../todos/index";
+import {logger} from "../../util/logger";
 
 const router = express.Router();
 const usersController = new UsersController();
@@ -20,7 +21,7 @@ router.get("/:id", authMiddleware, (req: any, res: express.Response, next: expre
 	if ((req.user.get("id") !== req.params.id) && !req.user.get("is_admin")) {
 		return next(new Error("Authentication Error"));
 	}
-	console.log("id", req.params.id);
+	logger.info("id", req.params.id);
 	return usersController.getUser(req.params.id)
 		.then((user) => res.json(user ? user.toJSON() : {}))
 		.catch((err: Error) => next(err));
