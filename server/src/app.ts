@@ -4,11 +4,7 @@ import * as bodyParser from "body-parser";
 import * as mustacheExpress from "mustache-express";
 import AuthController from "./components/auth";
 import api from "./api";
-
-/* tslint:disable */
-const fs = require("fs");
-const path = require("path");
-/* tslint:enable */
+import {infoStream, errorStream} from "./util/logger";
 
 const environment = process.env["NODE_ENV"];
 
@@ -19,13 +15,20 @@ app.engine("mst", mustacheExpress());
 app.set("views", __dirname + "/views");
 app.set("view engine", "mst");
 
-// logging
-if (environment === "development") {
-	app.use(morgan("dev"));
-} else {
-	const logStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), {flags: "a"});
-	app.use(morgan("combined", {stream: logStream}));
-}
+// request logging
+const morganFormat = (environment === "development") ? "dev" : "combined";
+app.use(morgan(morganFormat, {
+	skip: (req, res) => {
+		return res.statusCode < 400;
+	},
+	stream: errorStream,
+}));
+app.use(morgan(morganFormat, {
+	skip: (req, res) => {
+		return res.statusCode >= 400;
+	},
+	stream: infoStream,
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
