@@ -7,7 +7,7 @@ const {combine, timestamp, colorize, logstash, align, printf} = winston.format;
 const path = require("path");
 /* tslint:enable */
 
-const activeTransports: Transport[] = [new winston.transports.Console()];
+const activeTransports: Transport[] = [new winston.transports.Console({handleExceptions: true})];
 
 const logLevel = process.env.LOG_LEVEL || "info";
 
