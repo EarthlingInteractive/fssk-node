@@ -3,5 +3,6 @@
 	"watch": ["src"],
 	"ext": "ts",
 	"ignore": ["src/**/*.spec.ts"],
-	"exec": "ts-node --inspect -r dotenv/config src/bin/www"
+	"exec": "ts-node --inspect -r dotenv/config src/bin/www",
+	"delay": "500"
 }
