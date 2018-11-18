@@ -8,7 +8,6 @@
   "proxy": "http://fssk-node-server:4000",
   "homepage": "/client",
   "scripts": {
-    "prestart": "npm install",
     "start": "react-scripts start",
     "prebuild": "npm install",
     "build": "react-scripts build",
@@ -52,7 +51,9 @@
     "fetch-mock": "6.5.2",
     "jest-enzyme": "7.0.0",
     "jest-junit": "5.2.0",
-    "react-test-renderer": "16.4.1"
+    "react-test-renderer": "16.4.1",
+    "tslint": "5.11.0",
+    "tslint-react": "3.6.0"
   },
   "eslintConfig": {
     "extends": "react-app"

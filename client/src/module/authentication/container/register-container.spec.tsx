@@ -120,7 +120,7 @@ describe("RegisterContainer", () => {
 				statusCode: 200,
 				headers: new Headers({"Content-Type":  "application/json"}),
 				body: {id: 1234},
-			}, { method: 'post'});
+			}, { method: "post"});
 
 			const fetchSpy = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));
 

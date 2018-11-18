@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import RoutingContainer from "./module/routing/container/routing-container";
 
 class App extends Component {
-	render() {
+	public render() {
 		return (
 			<RoutingContainer/>
 		);
