@@ -8,6 +8,7 @@
   "proxy": "http://fssk-node-server:4000",
   "homepage": "/client",
   "scripts": {
+    "prestart": "npm install",
     "start": "react-scripts start",
     "prebuild": "npm install",
     "build": "react-scripts build",
