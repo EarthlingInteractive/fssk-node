@@ -3,8 +3,8 @@ import * as Enzyme from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import RegisterContainer from "../container/register-container";
 import * as fetchUtils from "../../../util/fetch-util";
-import * as fetchMock from "fetch-mock";
-import * as waitForExpect from "wait-for-expect";
+import fetchMock from "fetch-mock";
+import waitForExpect from "wait-for-expect";
 
 const validData = {
 	email: "test@test.com",
@@ -115,12 +115,12 @@ describe("RegisterContainer", () => {
 			fillOutForm(wrapper);
 
 			// Mock the registration response
-			fetchMock.post("/api/users/register", {
+			fetchMock.mock("/api/users/register", {
 				status: 200,
 				statusCode: 200,
 				headers: new Headers({"Content-Type":  "application/json"}),
 				body: {id: 1234},
-			});
+			}, { method: "post"});
 
 			const fetchSpy = spyOn(fetchUtils, "default").and.returnValue(Promise.resolve({ status: 200 }));
 

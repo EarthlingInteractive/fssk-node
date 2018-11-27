@@ -1,5 +1,5 @@
 import {action, observable, runInAction} from "mobx";
-import * as Moment from "moment";
+import Moment from "moment";
 
 export interface ITodoModelProps {
 	id?: string;
