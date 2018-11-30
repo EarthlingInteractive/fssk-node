@@ -6,14 +6,17 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+        name: update_submodules
+        command: git submodule update --remote
       - restore_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "client/package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
           name: npm-install
           working_directory: ./client
           command: npm install
       - save_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "client/package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
           paths:
             - ./client/node_modules
       - run:
@@ -36,14 +39,17 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+        name: update_submodules
+        command: git submodule update --remote
       - restore_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "client/package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
           name: npm-install
           working_directory: ./client
           command: npm install
       - save_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "client/package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
           paths:
             - ./client/node_modules
       - run:
@@ -65,16 +71,19 @@ jobs:
     steps:
       - checkout
       - run:
+        name: update_submodules
+        command: git submodule update --remote
+      - run:
           name: Install postgres client
           command: sudo apt-get update && sudo apt-get install postgresql-client -y
       - restore_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "server/package.json" }}
+          key: dependency-cache-{{ checksum "server/package.json" }}
       - run:
           name: npm-install
           working_directory: ./server
           command: npm install
       - save_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "server/package.json" }}
+          key: dependency-cache-{{ checksum "server/package.json" }}
           paths:
             - ./server/node_modules
       - run:
@@ -97,10 +106,13 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+        name: update_submodules
+        command: git submodule update --remote
       - restore_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "server/package.json" }}
+          key: dependency-cache-{{ checksum "server/package.json" }}
       - restore_cache:
-          key: 6ccdbf78-dependency-cache-{{ checksum "client/package.json" }}
+          key: dependency-cache-{{ checksum "client/package.json" }}
       - attach_workspace:
           at: .
       - run:
