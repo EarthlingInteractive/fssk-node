@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
         name: update_submodules
-        command: git submodule update --remote
+        command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
@@ -41,7 +41,7 @@ jobs:
       - checkout
       - run:
         name: update_submodules
-        command: git submodule update --remote
+        command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
@@ -72,7 +72,7 @@ jobs:
       - checkout
       - run:
         name: update_submodules
-        command: git submodule update --remote
+        command: git submodule update --init
       - run:
           name: Install postgres client
           command: sudo apt-get update && sudo apt-get install postgresql-client -y
@@ -108,7 +108,7 @@ jobs:
       - checkout
       - run:
         name: update_submodules
-        command: git submodule update --remote
+        command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "server/package.json" }}
       - restore_cache:
