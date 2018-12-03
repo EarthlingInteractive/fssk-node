@@ -188,3 +188,23 @@ Regardless of how your submodules are updated, once it is done you need to check
 git add client
 git commit -m 'Update client to latest'
 ```
+
+#### Stop Treating a Directory as a Submodule
+
+There may be a time where you want to effectively copy the contents of a submodule into your project, no longer treating it as a submodule. The steps to do this are as follows:
+
+1. Remove the submodule info from `.gitmodules`
+2. Remove the submodule from your local `.git` directory
+3. Delete the entire `.git` directory of the submodule
+4. Stop tracking the directory (but do not delete files) and commit
+5. Start tracking the directory again and commit
+
+An example of steps 2-5 is as follows:
+```
+rm -rf .git/modules/client
+rm -rf client/.git
+git rm --cached client
+git commit -m 'Remove client submodule'
+git add client
+git commit -m 'Add client code back in, no longer as a submodule'
+```
