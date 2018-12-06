@@ -47,7 +47,7 @@
     "typescript": "3.0.1"
   },
   "dependencies": {
-    "bcrypt": "1.0.3",
+    "bcrypt": "3.0.2",
     "body-parser": "1.18.3",
     "bookshelf": "0.13.3",
     "connect-session-knex": "1.4.0",
