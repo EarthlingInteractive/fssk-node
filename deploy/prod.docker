@@ -1,0 +1,26 @@
+FROM node:8.11.2 as client_builder
+
+RUN mkdir -p /opt/client
+
+# install dependencies first, so docker can cache them and speed up subsequent build
+WORKDIR /opt/client
+COPY ./client/package.json ./client/package-lock.json* ./
+RUN npm install
+
+# copy in our source code last, as it changes the most
+COPY ./client /opt/client
+
+RUN npm run build
+
+# Serve up the files using a small image
+FROM node:8.11-alpine
+
+RUN mkdir -p /opt/client
+
+WORKDIR /opt
+COPY --from=client_builder /opt/client/build /opt/client
+
+RUN npm install -g serve
+
+EXPOSE 5000
+CMD ["serve", "-s", "client"]
