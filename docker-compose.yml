@@ -1,9 +1,7 @@
 version: '2'
 services:
   fssk-node-client:
-      build:
-        context: ./
-        dockerfile: deploy/client.docker
+      image: 'node:8.11.2'
       hostname: 'client'
       container_name: 'fssk-node-client'
       env_file: ./client/.env
@@ -21,9 +19,7 @@ services:
       networks:
         - app
   fssk-node-server:
-      build:
-        context: ./
-        dockerfile: deploy/server.docker
+      image: 'node:8.11.2'
       hostname: 'server'
       container_name: 'fssk-node-server'
       env_file: ./server/.env
