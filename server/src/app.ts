@@ -33,21 +33,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const authController = new AuthController();
 authController.initialize(app);
 
-// linked client dist directory
-// if (environment === 'production') app.use(express.static(path.join(__dirname, 'public')));
-
-app.get("/", function(req: express.Request, res: express.Response) {
-	res.render("index", { title: "FSSK", message: "Hello world!" });
-});
-
 app.use("/api/", api);
 
-// catch 404 and forward to error handler
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+// catch 404 api calls and forward to error handler
+app.use("/api/*", (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const err = new Error("Not Found");
 	err["status"] = 404;
 	next(err);
 });
+
+// in prod, serve up static client-side files
+if (environment === "production") {
+	const clientDir = path.resolve(__dirname, "../client");
+	app.use(express.static(clientDir));
+
+	// send unhandled URLs to index.html so that react router can handle them
+	app.get("/*", function(req: express.Request, res: express.Response) {
+		res.sendFile(path.join(clientDir, "index.html"));
+	});
+}
 
 // error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

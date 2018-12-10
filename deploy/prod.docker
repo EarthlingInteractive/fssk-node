@@ -1,26 +1,54 @@
-FROM node:8.11.2 as client_builder
+FROM node:10 as builder
 
 RUN mkdir -p /opt/client
+RUN mkdir -p /opt/server
 
 # install dependencies first, so docker can cache them and speed up subsequent build
 WORKDIR /opt/client
 COPY ./client/package.json ./client/package-lock.json* ./
 RUN npm install
 
+WORKDIR /opt/server
+COPY ./server/package.json ./server/package-lock.json* ./
+RUN npm install
+
 # copy in our source code last, as it changes the most
 COPY ./client /opt/client
+COPY ./server /opt/server
 
+WORKDIR /opt/client
 RUN npm run build
 
-# Serve up the files using a small image
-FROM node:8.11-alpine
+WORKDIR /opt/server
+RUN npm run build
+
+# Now build all the node_modules
+FROM node:10-alpine as node-modules-builder
+
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN mkdir -p /opt/server
+COPY --from=builder /opt/server/package.json /opt/server/package-lock.json /opt/server/
+WORKDIR /opt/server
+ENV NODE_ENV production
+RUN npm install
+
+# Finally, transfer only the runtime files to a small image
+FROM node:10-alpine
 
 RUN mkdir -p /opt/client
+RUN mkdir -p /opt/server
 
-WORKDIR /opt
-COPY --from=client_builder /opt/client/build /opt/client
+COPY --from=builder /opt/client/build /opt/client
+COPY --from=builder /opt/server/build /opt/server
+COPY --from=node-modules-builder /opt/server/node_modules /opt/server/node_modules
+COPY --from=node-modules-builder /opt/server/package.json /opt/server/package-lock.json /opt/server/
 
-RUN npm install -g serve
+WORKDIR /opt/server
+ENV NODE_ENV production
 
-EXPOSE 5000
-CMD ["serve", "-s", "client"]
+# RUN npm install -g nodemon
+
+EXPOSE 3000
+CMD ["node", "./bin/www.js"]

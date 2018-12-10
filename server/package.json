@@ -65,6 +65,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "nodemon",
+    "build": "tsc",
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint --fix src/**/*.ts{,x}",
     "test": "jest",
