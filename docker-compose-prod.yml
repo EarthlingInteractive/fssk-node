@@ -9,7 +9,7 @@ services:
         env_file: ./server/.env
         environment:
           - 'NODE_ENV=production'
-        command: 'node ./bin/www.js'
+        command: ["npm", "run", "start:prod"]
         ports:
           - '4000:4000'
         working_dir: '/opt/server'
