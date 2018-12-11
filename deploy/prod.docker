@@ -1,31 +1,37 @@
-FROM node:10 as builder
-
-RUN mkdir -p /opt/client
-
-# install dependencies first, so docker can cache them and speed up subsequent build
-WORKDIR /opt/client
-COPY ./client/package.json ./client/package-lock.json* ./
-RUN npm install
-
-# copy in our source code last, as it changes the most
-COPY ./client /opt/client
-
-WORKDIR /opt/client
-RUN npm run build
-
-# Now build all the node_modules
-FROM node:10-alpine as node-modules-builder
+#########################################################################
+# Stage 1: Build client
+FROM node:10-alpine as client-builder
 
 ## Install build toolchain, install node deps and compile native add-ons
 RUN apk add --no-cache --virtual .gyp python make g++
 
-RUN mkdir -p /opt/server
-COPY ./server/package.json ./server/package-lock.json /opt/server/
-WORKDIR /opt/server
+RUN mkdir -p /opt/src
+
+WORKDIR /opt/src
+COPY ./client /opt/src
+RUN npm install
+
+RUN npm run build
+
+#########################################################################
+# Stage 2: Build server
+FROM node:10-alpine as server-builder
+
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN mkdir -p /opt/src
+
+WORKDIR /opt/src
+COPY ./server /opt/src
+
 ENV NODE_ENV production
 RUN npm install
 
-# Finally, transfer only the runtime files to a small image
+# Since we're using ts-node to run the code, there's no need to transpile
+
+#########################################################################
+# Stage 3: Transfer only the runtime files to a small image
 FROM node:10-alpine
 
 RUN apk add --no-cache --virtual postgresql-client
@@ -33,10 +39,8 @@ RUN apk add --no-cache --virtual postgresql-client
 RUN mkdir -p /opt/client
 RUN mkdir -p /opt/server
 
-COPY --from=builder /opt/client/build /opt/client
-COPY ./server /opt/server
-COPY --from=node-modules-builder /opt/server/node_modules /opt/server/node_modules
-COPY --from=node-modules-builder /opt/server/package.json /opt/server/package-lock.json /opt/server/
+COPY --from=client-builder /opt/src/build /opt/client
+COPY --from=server-builder /opt/src /opt/server
 
 WORKDIR /opt/server
 
