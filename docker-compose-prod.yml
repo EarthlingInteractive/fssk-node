@@ -9,7 +9,7 @@ services:
         env_file: ./server/.env
         environment:
           - 'NODE_ENV=production'
-        command: ["npm", "run", "start:prod"]
+        command: ["./util/wait-for-it.sh", "npm", "run", "start:prod"]
         ports:
           - '4000:4000'
         working_dir: '/opt/server'

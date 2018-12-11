@@ -28,6 +28,8 @@ RUN npm install
 # Finally, transfer only the runtime files to a small image
 FROM node:10-alpine
 
+RUN apk add --no-cache --virtual postgresql-client
+
 RUN mkdir -p /opt/client
 RUN mkdir -p /opt/server
 
@@ -37,7 +39,12 @@ COPY --from=node-modules-builder /opt/server/node_modules /opt/server/node_modul
 COPY --from=node-modules-builder /opt/server/package.json /opt/server/package-lock.json /opt/server/
 
 WORKDIR /opt/server
+
+COPY ./util/wait-for-it.sh /opt/server/util/
+RUN chmod u+x ./util/wait-for-it.sh
+
 ENV NODE_ENV production
+ENV TS_NODE_TRANSPILE_ONLY true
 
 EXPOSE 4000
 CMD ["npm", "run", "start:prod"]
