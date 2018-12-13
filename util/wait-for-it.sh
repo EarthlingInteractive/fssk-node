@@ -7,7 +7,7 @@ done
 
 echo "Postgres is ready - running migrations"
 
-npm run migrate
+npm run migrate:prod
 
 echo "Postgres is ready - executing $@"
 

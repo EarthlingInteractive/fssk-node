@@ -42,7 +42,9 @@
     "jest-junit": "5.2.0",
     "nodemon": "1.18.3",
     "ts-jest": "23.0.1",
-    "tslint": "5.11.0"
+    "ts-node": "7.0.1",
+    "tslint": "5.11.0",
+    "typescript": "3.0.1"
   },
   "dependencies": {
     "bcrypt": "3.0.2",
@@ -58,20 +60,20 @@
     "passport": "0.4.0",
     "passport-local": "1.0.0",
     "pg": "7.4.3",
-    "ts-node": "7.0.1",
-    "typescript": "3.0.1",
     "validator": "10.4.0"
   },
   "scripts": {
     "prestart": "npm install",
     "start": "nodemon",
-    "start:prod": "ts-node --transpileOnly -r dotenv/config src/bin/www",
+    "start:prod": "node -r dotenv/config bin/www",
+    "build": "tsc",
     "lint": "tslint src/**/*.ts{,x}",
     "lint:fix": "tslint --fix src/**/*.ts{,x}",
     "test": "jest",
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage",
     "knex": "knex --knexfile=./src/knexfile.ts",
     "migrate": "npm run knex migrate:latest",
+    "migrate:prod": "knex migrate:latest",
     "migrate:make": "npm run knex migrate:make",
     "migrate:rollback": "npm run knex migrate:rollback",
     "seed": "npm run knex seed:run",

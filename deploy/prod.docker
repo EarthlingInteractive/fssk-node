@@ -25,10 +25,15 @@ RUN mkdir -p /opt/src
 WORKDIR /opt/src
 COPY ./server /opt/src
 
-ENV NODE_ENV production
 RUN npm install
 
-# Since we're using ts-node to run the code, there's no need to transpile
+RUN npm run build
+
+## Now get rid of the existing node_modules because it contains build time dependencies
+## and instead just install the runtime dependencies
+RUN rm -rf /opt/src/node_modules
+ENV NODE_ENV production
+RUN npm install
 
 #########################################################################
 # Stage 3: Transfer only the runtime files to a small image
@@ -40,7 +45,11 @@ RUN mkdir -p /opt/client
 RUN mkdir -p /opt/server
 
 COPY --from=client-builder /opt/src/build /opt/client
-COPY --from=server-builder /opt/src /opt/server
+COPY --from=server-builder /opt/src/build /opt/server
+COPY --from=server-builder /opt/src/node_modules /opt/server/node_modules
+COPY --from=server-builder /opt/src/package.json /opt/src/package-lock.json /opt/server/
+COPY --from=server-builder /opt/src/src/bin /opt/server/bin
+COPY --from=server-builder /opt/src/src/views /opt/server/views
 
 WORKDIR /opt/server
 
@@ -48,7 +57,6 @@ COPY ./util/wait-for-it.sh /opt/server/util/
 RUN chmod u+x ./util/wait-for-it.sh
 
 ENV NODE_ENV production
-ENV TS_NODE_TRANSPILE_ONLY true
 
 EXPOSE 4000
 CMD ["npm", "run", "start:prod"]

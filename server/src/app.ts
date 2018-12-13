@@ -44,7 +44,7 @@ app.use("/api/*", (req: express.Request, res: express.Response, next: express.Ne
 
 // in prod, serve up static client-side files
 if (environment === "production") {
-	const clientDir = path.resolve(__dirname, "../../client");
+	const clientDir = path.resolve(__dirname, "../client");
 	app.use(express.static(clientDir));
 
 	// send unhandled URLs to index.html so that react router can handle them
