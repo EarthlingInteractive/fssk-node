@@ -6,6 +6,9 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+          name: update_submodules
+          command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
@@ -36,6 +39,9 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+          name: update_submodules
+          command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "client/package.json" }}
       - run:
@@ -64,6 +70,9 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+          name: update_submodules
+          command: git submodule update --init
       - run:
           name: Install postgres client
           command: sudo apt-get update && sudo apt-get install postgresql-client -y
@@ -97,6 +106,9 @@ jobs:
     working_directory: ~/fssk-node
     steps:
       - checkout
+      - run:
+          name: update_submodules
+          command: git submodule update --init
       - restore_cache:
           key: dependency-cache-{{ checksum "server/package.json" }}
       - restore_cache:

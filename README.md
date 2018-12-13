@@ -52,7 +52,7 @@ The current technologies used by fssk are as follows:
 
 ### Prerequisites
 
-- Docker 
+- Docker
 
 ### Setting up Dev
 
@@ -106,7 +106,7 @@ TBD
 
 ## Database
 
-Using postgres v9.6. For local development, database runs in docker container. `db` folder contains 
+Using postgres v9.6. For local development, database runs in docker container. `db` folder contains
 init scripts, and `server/db_migrations` contains additional migrations and seeds.
 
 You can connect to the database with your favorite client at `localhost:5432`!
@@ -127,17 +127,84 @@ Make sure git globally has line endings set to LF.  This needs to be set ***befo
 - For windows: `git config --global core.autocrlf false`
 - For linux/mac: `git config --global core.autocrlf input`
 
-If you forget to do this in windows, you make get errors starting docker like `file not found`. 
+If you forget to do this in windows, you make get errors starting docker like `file not found`.
 Update the line endings of any files that are crlf to lf and try again.
 
 ### Windows Watching
 
 In order for file changes to be picked up by the watchers in client side code, be sure to set `CHOKIDAR_USEPOLLING=true`
-in the `.env` file. 
+in the `.env` file.
 
 ### Running without docker
 
-You should be able to run the site locally without docker if desired. Make 
+You should be able to run the site locally without docker if desired. Make
 sure you have node >= v8.9.4. You will need to change the client proxy in
-`client/package.json` to point to `http://localhost:4000`, and the `POSTGRES_HOST` 
+`client/package.json` to point to `http://localhost:4000`, and the `POSTGRES_HOST`
 in `server/.env` to `localhost`.
+
+### Working With Submodules
+
+#### Synchronizing Submodules
+
+If you have not cloned the project yet, you can clone the project and simultaneously initialize submodules via the `--recurse-submodules` flag, like so:
+```
+git clone --recurse-submodules git@github.com:EarthlingInteractive/fssk-node.git
+```
+
+When you pull updates, your submodules will not be updated by default. To include submodule updates with your pull, you can again use the `--recurse-submodules` flag, like so:
+```
+git pull origin master --recurse-submodules
+```
+
+You can run the following command in the top-level project directory at any time to initialize all submodules and ensure that they are up-to-date with the currently checked in commit:
+```
+git submodule update --init
+```
+
+#### Updating Submodules
+
+If you would like to update a submodule to a later commit from its parent repository, you have multiple options.
+
+One option for updating a submodule is to simply enter the directory and pull it normally, like so:
+```
+cd client
+git pull origin master
+```
+
+Another option is to simply update the submodule to the latest commit from its respective branch, by running the following command in the top-level project directory:
+```
+git submodule update --remote client
+```
+
+You can similarly update ALL submodules to the latest commit on their respective branches, by leaving out the submodule name:
+```
+git submodule update --remote
+```
+
+Be VERY CAREFUL when blindly updating submodules to the latest commit on their branch, as they may contain breaking changes.
+
+Regardless of how your submodules are updated, once it is done you need to check the updates into the parent repository. Navigate to the top-level directory and simply add the repositories normally:
+```
+git add client
+git commit -m 'Update client to latest'
+```
+
+#### Stop Treating a Directory as a Submodule
+
+There may be a time where you want to effectively copy the contents of a submodule into your project, no longer treating it as a submodule. The steps to do this are as follows:
+
+1. Remove the submodule info from `.gitmodules`
+2. Remove the submodule from your local `.git` directory
+3. Delete the entire `.git` directory of the submodule
+4. Stop tracking the directory (but do not delete files) and commit
+5. Start tracking the directory again and commit
+
+An example of steps 2-5 is as follows:
+```
+rm -rf .git/modules/client
+rm -rf client/.git
+git rm --cached client
+git commit -m 'Remove client submodule'
+git add client
+git commit -m 'Add client code back in, no longer as a submodule'
+```
