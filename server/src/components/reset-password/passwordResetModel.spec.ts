@@ -1,5 +1,5 @@
 import BaseModel from "../base/baseModel";
-import TodoModel from "./todoModel";
+import PasswordResetModel from "./passwordResetModel";
 
 test("is a subclass of Base", () => {
 	const model = new PasswordResetModel();
@@ -13,7 +13,7 @@ test("has the correct tableName", () => {
 
 test("defines the idAttribute", () => {
 	const model = new PasswordResetModel();
-	expect(model.idAttribute).toEqual("id");
+	expect(model.idAttribute).toEqual("tokenhash");
 });
 
 test("has timestamps", () => {
