@@ -17,7 +17,7 @@ router.post("/", (req: any, res: express.Response, next: express.NextFunction) =
 	}
 
 	// Get the ip address of this requester
-	const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress
+	const ipAddress = req.header("x-forwarded-for") || req.connection.remoteAddress;
 
 	forgotPasswordController.createForgotPasswordToken(req.body, ipAddress)
 		.then((token) => res.json(token ? token : []))
