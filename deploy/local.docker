@@ -1,0 +1,10 @@
+FROM node:10-alpine
+
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN mkdir -p /opt/src
+
+WORKDIR /opt/src
+
+# For local dev, code will be added via a volume mount with docker-compose

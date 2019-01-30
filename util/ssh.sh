@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "Starting Server Bash";
-docker exec -it fssk-node-server bash
+echo "Starting Server Shell";
+docker exec -it fssk-node-server sh

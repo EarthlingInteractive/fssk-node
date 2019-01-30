@@ -23,7 +23,8 @@ e.g. `http://localhost:3000/api/users` will be forwarded to `http://localhost:40
 To initialize the database:
 
 ```shell
-docker exec -it fssk-node-server npm run migrate && npm run seed
+docker exec -it fssk-node-server npm run migrate
+docker exec -it fssk-node-server npm run seed
 ```
 
 Log in to the todo app with `test@earthlinginteractive.com`, password `test`.
@@ -53,6 +54,7 @@ The current technologies used by fssk are as follows:
 ### Prerequisites
 
 - Docker
+- Git
 
 ### Setting up Dev
 
@@ -78,15 +80,28 @@ cd client/ && npm run build
 
 ### Deploying / Publishing
 
+The production Dockerfile lives at `deploy/prod.docker` and contains all the instructions required to build a
+docker image that will run the application.
+
+To test a production build locally, run:
+
 ```shell
 docker-compose -f docker-compose-prod.yml up -d
 ```
 
-Will build the client code, spin up the server in a docker instance with / pointing to client's index.html.
+This command will build the client & server code and spin up the server in a docker instance with http://localhost:4000/ pointing to client's index.html.
+The static client-side files are being served using express.js.  This configuration is intended to be deployed on a rancher-based
+environment with a CDN in front of it to cache static files.  The CDN mitigates node's potential performance issues when serving static files.
+Depending on the scaling needs of your project and the runtime environment, you may want to consider other options for serving the files (e.g., nginx, Amazon S3, etc.)
+
+**Note:** When switching back and forth between the local dev and prod builds, if you see docker errors complaining about the network not being found,
+try running the `docker-compose down` command before switching.
 
 ## Configuration
 
-See the .env.example files in client and server directories.
+Per the best practices in [The Twelve-Factor App](https://12factor.net/), all configuration should be stored in environment variables.
+See the .env.example files in client and server directories for examples.  For production deployments, only the environment variables in the server
+.env.example file need to be set.
 
 ## Tests
 

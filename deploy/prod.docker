@@ -1,0 +1,62 @@
+#########################################################################
+# Stage 1: Build client
+FROM node:10-alpine as client-builder
+
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN mkdir -p /opt/src
+
+WORKDIR /opt/src
+COPY ./client /opt/src
+RUN npm install
+
+RUN npm run build
+
+#########################################################################
+# Stage 2: Build server
+FROM node:10-alpine as server-builder
+
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN mkdir -p /opt/src
+
+WORKDIR /opt/src
+COPY ./server /opt/src
+
+RUN npm install
+
+RUN npm run build
+
+## Now get rid of the existing node_modules because it contains build time dependencies
+## and instead just install the runtime dependencies
+RUN rm -rf /opt/src/node_modules
+ENV NODE_ENV production
+RUN npm install
+
+#########################################################################
+# Stage 3: Transfer only the runtime files to a small image
+FROM node:10-alpine
+
+RUN apk add --no-cache --virtual postgresql-client
+
+RUN mkdir -p /opt/client
+RUN mkdir -p /opt/server
+
+COPY --from=client-builder /opt/src/build /opt/client
+COPY --from=server-builder /opt/src/build /opt/server
+COPY --from=server-builder /opt/src/node_modules /opt/server/node_modules
+COPY --from=server-builder /opt/src/package.json /opt/src/package-lock.json /opt/server/
+COPY --from=server-builder /opt/src/src/bin /opt/server/bin
+COPY --from=server-builder /opt/src/src/views /opt/server/views
+
+WORKDIR /opt/server
+
+COPY ./util/wait-for-it.sh /opt/server/util/
+RUN chmod u+x ./util/wait-for-it.sh
+
+ENV NODE_ENV production
+
+EXPOSE 4000
+CMD ["npm", "run", "start:prod"]
