@@ -1,0 +1,51 @@
+image: registry.ei-platform.com/earthlinginteractive/base-images/dind:master
+
+stages:
+- build
+- deploy
+
+variables:
+  IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+build-image:
+  environment:
+    name: build
+  stage: build
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  - docker build -t $IMAGE -f ./deploy/prod.docker .
+  - docker push $IMAGE
+  only:
+  - master
+  - stage
+  - test
+
+upgrade-test:
+  environment:
+    name: test
+  stage: deploy
+  image: cdrx/rancher-gitlab-deploy
+  script:
+  - upgrade --rancher-url $RANCHER_URL_DEV --rancher-key $RANCHER_KEY_DEV --rancher-secret $RANCHER_SECRET_DEV --stack $RANCHER_STACK_DEV --service $RANCHER_SERVICE_TEST --environment $RANCHER_ENV_DEV --new-image $IMAGE --wait-for-upgrade-to-finish --start-before-stopping --batch-size 2
+  only:
+  - test
+
+upgrade-stage:
+  environment:
+    name: stage
+  stage: deploy
+  image: cdrx/rancher-gitlab-deploy
+  script:
+  - upgrade --rancher-url $RANCHER_URL_DEV --rancher-key $RANCHER_KEY_DEV --rancher-secret $RANCHER_SECRET_DEV --stack $RANCHER_STACK_DEV --service $RANCHER_SERVICE_STAGE --environment $RANCHER_ENV_DEV --new-image $IMAGE --wait-for-upgrade-to-finish --start-before-stopping --batch-size 2
+  only:
+  - stage
+
+upgrade-master:
+  environment:
+    name: master
+  stage: deploy
+  image: cdrx/rancher-gitlab-deploy
+  script:
+  - upgrade --rancher-url $RANCHER_URL_PROD --rancher-key $RANCHER_KEY_PROD --rancher-secret $RANCHER_SECRET_PROD --stack $RANCHER_STACK_PROD --service $RANCHER_SERVICE_PROD --environment $RANCHER_ENV_PROD --new-image $IMAGE --wait-for-upgrade-to-finish --start-before-stopping --batch-size 2
+  only:
+  - master
