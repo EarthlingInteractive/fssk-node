@@ -83,6 +83,33 @@ cd client/ && npm run build
 The production Dockerfile lives at `deploy/prod.docker` and contains all the instructions required to build a
 docker image that will run the application.
 
+There is a GitLab CI file at the project root that contains instructions for deploying via GitLab to Rancher-based environments.
+Out of the box, three environments are supported: `test`, `stage`, and `master` (aka production).  Each environment should have a
+corresponding branch of the same name in git.  Changes flow from:
+```
+[feature branch] --> test --> stage --> master
+```
+
+To deploy code to an environment:
+
+1. Make sure that you have access to the gitlab remote by registering your public SSH key with your gitlab account
+1. Make sure that the gitlab remote has been added to your repo:
+   ```bash
+   git add remote deploy <your_gitlab_project_url>
+   ```
+1. Check out the branch for the environment you want to deploy:
+   ```bash
+   git checkout master
+   ```
+1. Push that branch to the GitLab remote:
+   ```bash
+   git push deploy
+   ```
+1. Check GitLab for the status of the deployment pipeline jobs.
+
+When setting up the GitLab project, make sure to set all of the variables used in the `.gitlab-ci.yml` file in the Environment Variables section of the CI/CD Settings.
+The $RANCHER_SERVICE_* environment variables should match the name of the service in Rancher.
+
 To test a production build locally, run:
 
 ```shell
