@@ -3,7 +3,7 @@ services:
   fssk-node-client:
       build:
         context: ./
-        dockerfile: deploy/client.docker
+        dockerfile: deploy/local.docker
       hostname: 'client'
       container_name: 'fssk-node-client'
       env_file: ./client/.env
@@ -11,7 +11,8 @@ services:
       ports:
         - '3000:3000'
       volumes:
-        - './client:/opt/src'
+      - './client:/opt/src'
+      - 'client-node-modules:/opt/src/node_modules'
       working_dir: '/opt/src'
       depends_on:
         - fssk-node-server
@@ -22,7 +23,7 @@ services:
   fssk-node-server:
       build:
         context: ./
-        dockerfile: deploy/server.docker
+        dockerfile: deploy/local.docker
       hostname: 'server'
       container_name: 'fssk-node-server'
       env_file: ./server/.env
@@ -31,6 +32,7 @@ services:
         - '4000:4000'
       volumes:
         - './server:/opt/src'
+        - 'server-node-modules:/opt/src/node_modules'
       working_dir: '/opt/src'
       depends_on:
         - fssk-node-db
@@ -57,4 +59,5 @@ networks:
     driver: bridge
 volumes:
   fssk-node-db-data:
-  fssk-node-server-data:
+  client-node-modules:
+  server-node-modules:

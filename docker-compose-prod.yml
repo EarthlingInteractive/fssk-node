@@ -1,48 +1,39 @@
-version: '2'
+version: '3'
 services:
   fssk-server:
         build:
           context: ./
-          dockerfile: deploy/server.docker
+          dockerfile: deploy/prod.docker
         hostname: 'server'
         container_name: 'fssk-server'
         env_file: ./server/.env
-        command: 'npm start'
+        environment:
+          - 'NODE_ENV=production'
+        command: ["./util/wait-for-it.sh", "npm", "run", "start:prod"]
         ports:
           - '4000:4000'
-        volumes:
-          - './server:/opt/src'
-        working_dir: '/opt/src'
+        working_dir: '/opt/server'
         depends_on:
           - fssk-db
-        links:
-          - 'fssk-db:db'
         networks:
           - app
-  fssk-client:
-        build:
-          context: ./
-          dockerfile: deploy/client.docker
-        hostname: 'client'
-        container_name: 'fssk-client'
-        env_file: ./client/.env
-        command: 'npm run build'
-        ports:
-          - '3000:3000'
         volumes:
-          - './client:/opt/src'
-        working_dir: '/opt/src'
-        networks:
-          - app
+          - 'fssk-server-data:/opt/server/logs'
   fssk-db:
-      env_file: server/.env
+      environment:
+      - 'POSTGRES_USER=root'
+      - 'POSTGRES_DB=test'
+      - 'POSTGRES_PASSWORD=admin'
       image: 'postgres:9.6'
-      container_name: 'postgres'
       ports:
         - '5432:5432'
       volumes:
         - 'fssk-db-data:/var/lib/mysql'
         - './db:/docker-entrypoint-initdb.d/'
+      networks:
+        app:
+          aliases:
+            - db
 networks:
   app:
     driver: bridge
