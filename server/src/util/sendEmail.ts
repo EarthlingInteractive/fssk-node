@@ -8,19 +8,20 @@ export default function sendEmail(data: any) {
 
 	// Throw an error if these environment variables aren't defined - we need them
 	const usedEnvVarables = [
-		"EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD",
+		"EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD", "EMAIL_SECURE",
 	];
 
 	usedEnvVarables.forEach((varName) => {
 		if (typeof process.env[varName] === "undefined" || 0 === process.env[varName].length) {
-			throw new Error(`Could not find environment variable: ${varName}`);
+			console.error(`Could not find environment variable: ${varName}`);
+			throw new Error(`Something went wrong when trying to send an email.`);
 		}
 	});
 
 	const transporter = nodemailer.createTransport({
 		host: process.env["EMAIL_HOST"],
 		port: process.env["EMAIL_PORT"],
-		secure: true,
+		secure: process.env["EMAIL_SECURE"],
 		auth: {
 			user: process.env["EMAIL_USERNAME"],
 			pass: process.env["EMAIL_PASSWORD"],
