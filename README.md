@@ -110,6 +110,14 @@ To deploy code to an environment:
 When setting up the GitLab project, make sure to set all of the variables used in the `.gitlab-ci.yml` file in the Environment Variables section of the CI/CD Settings.
 The $RANCHER_SERVICE_* environment variables should match the name of the service in Rancher.
 
+#### Example Deployment
+There is an example version of the fssk-node project itself running at https://fssk-node.ei-app.com
+The rancher URL is https://rancher.earthlinginteractive.com/env/1a5/apps/stacks/1st7/services/1s537/containers?tags=ei-app&which=all and
+the associated GitLab project is https://git.ei-platform.com/EarthlingInteractive/StarterKits/fssk-node
+Since this starter kit doesn't use the `test` and `stage` environments, only the `master` branch of this repository is configured to deploy on rancher.
+
+#### Testing Production Builds Locally
+
 To test a production build locally, run:
 
 ```shell
