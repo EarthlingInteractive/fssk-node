@@ -1,4 +1,4 @@
-image: registry.ei-platform.com/earthlinginteractive/base-images/dind:master
+image: library/docker:stable-dind
 
 stages:
 - build
