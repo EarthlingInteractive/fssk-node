@@ -57,7 +57,7 @@
     "express-session": "1.15.6",
     "knex": "0.15.2",
     "moment": "2.22.2",
-    "morgan": "1.9.0",
+    "morgan": "1.9.1",
     "mustache": "3.0.1",
     "mustache-express": "1.2.7",
     "nodemailer": "4.7.0",
