@@ -1,4 +1,4 @@
-image: registry.ei-platform.com/earthlinginteractive/base-images/dind:master
+image: library/docker:stable-dind
 
 stages:
 - build
@@ -6,6 +6,7 @@ stages:
 
 variables:
   IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  DOCKER_DRIVER: overlay2
 
 build-image:
   environment:
