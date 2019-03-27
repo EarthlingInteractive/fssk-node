@@ -15,9 +15,6 @@ const environment = process.env["NODE_ENV"];
 
 const app: express.Application = express();
 
-// Make New Relic available to EJS templates
-app.locals.newrelic = newrelic;
-
 
 // include mustache template engine
 app.engine("mst", mustacheExpress());
@@ -61,7 +58,7 @@ if (environment === "production") {
 			if (err) {
 				return console.log(err);
 			}
-			const result = data.replace(/\var __NEW_RELIC_SCRIPT__;/g, 'newrelic.getBrowserTimingHeader();');
+			const result = data.replace(/<meta name="__NEW_RELIC_SCRIPT__">/g, newrelic.getBrowserTimingHeader());
 			res.send(result);
 		});
 	});
