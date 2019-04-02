@@ -58,8 +58,13 @@ if (environment === "production") {
 			if (err) {
 				return console.log(err);
 			}
-			const result = data.replace(/<meta name="__NEW_RELIC_SCRIPT__">/g, newrelic.getBrowserTimingHeader());
-			res.send(result);
+			if (process.env.NEWRELIC_LICENSE && newrelic) {
+				const result = data.replace(/<meta name="__NEW_RELIC_SCRIPT__">/g, newrelic.getBrowserTimingHeader());
+				res.send(result);
+			} else {
+				res.send(data);
+			}
+
 		});
 	});
 }
