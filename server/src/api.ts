@@ -7,7 +7,7 @@ import todosRouter from "./components/todos/todosRouter";
 const router = express.Router();
 
 router.get("/", function(req: express.Request, res: express.Response, next: express.NextFunction) {
-	res.json({ hello: "world!"});
+	res.json({ hello: "world?"});
 });
 
 router.use("/auth/", authRouter);

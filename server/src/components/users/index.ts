@@ -46,12 +46,12 @@ export default class UsersController {
 		return user;
 	}
 
-	public async getUserByToken(token: string): Promise<UserModel> {
+	public async getUserActivationByToken(token: string): Promise<UserActivationModel> {
 		const userActivation = await new UserActivationModel()
 			.where({token})
-			.fetch()
+			.fetch({withRelated: ['user']})
 			.catch(handleDatabaseErrors);
-		return await this.getUser(userActivation.get('user_id'));
+		return userActivation;
 	}
 
 	public async createUser(data: any): Promise<BaseModel | void> {
@@ -104,14 +104,14 @@ export default class UsersController {
 		if (!user) {
 			throw new Error("User does not exist");
 		}
-		if (user.get('activated') === 1) {
+		if (user.get('activated') === true) {
 			throw new Error("User already activated");
 		}
 
-		//delete existing activation tokens
-		const oldUserActivation = await new UserModel()
+		//delete any existing activation tokens
+		const oldUserActivation = await new UserActivationModel()
 			.where({user_id : user.id})
-			.destroy()
+			.destroy({require: false})
 			.catch(handleDatabaseErrors);
 
 		const userActivation = await this.createUserActivation(user.id);
@@ -121,14 +121,20 @@ export default class UsersController {
 	}
 
 	public async activateUser(token: string): Promise<any> {
-		const user = await this.getUserByToken(token);
+		const userActivation = await this.getUserActivationByToken(token);
+		if (!userActivation) {
+			throw new Error("Token is not valid");
+		}
+
+		const user = userActivation.related('user') as UserModel;
 		if (!user) {
 			throw new Error("Token is not valid");
 		}
-		if (user.get('activated') === 1) {
+
+		if (user.get('activated') === true) {
 			throw new Error("User already activated");
 		}
-		const userActivation = user.related('userActivation') as UserActivationModel;
+
 		const isExpired = moment(userActivation.get('created_at')).isBefore(moment().subtract(24, 'hours'));
 		if (isExpired) {
 			throw new Error("Activation token has expired");
@@ -142,6 +148,7 @@ export default class UsersController {
 		return {
 			isValid: true,
 			user,
+			userActivation
 		};
 	}
 
