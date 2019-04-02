@@ -44,4 +44,16 @@ router.post("/register", (req: express.Request, res: express.Response, next: exp
 		.catch((err: Error) => next(err));
 });
 
+router.get("/resend-activation/:email", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	return usersController.resendActivationEmail(req.params.email)
+		.then((user) => res.json(user ? user.toJSON() : {}))
+		.catch((err: Error) => next(err));
+});
+
+router.get("/activate/:token", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	return usersController.activateUser(req.params.token)
+		.then((activationResults) => res.json(activationResults ? activationResults : {isValid: false}))
+		.catch((err: Error) => next(err));
+});
+
 export default router;

@@ -1,5 +1,5 @@
 import Database from "../../database";
 
-export default class BaseModel extends Database.bookshelf.Model<BaseModel> {
+export default class BaseModel extends Database.bookshelf.Model<any> {
 
 }
