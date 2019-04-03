@@ -71,7 +71,7 @@
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "nodemon -L",
+    "start": "nodemon",
     "start:prod": "node -r dotenv/config bin/www",
     "build": "tsc",
     "lint": "tslint src/**/*.ts{,x}",
