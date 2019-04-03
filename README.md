@@ -185,6 +185,8 @@ Update the line endings of any files that are crlf to lf and try again.
 In order for file changes to be picked up by the watchers in client side code, be sure to set `CHOKIDAR_USEPOLLING=true`
 in the `.env` file.
 
+For the server, update the npm start command in package.json to use legacy polling: `"start": "nodemon -L",`
+
 ### Running without docker
 
 You should be able to run the site locally without docker if desired. Make
