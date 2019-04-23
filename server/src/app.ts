@@ -54,7 +54,7 @@ if (environment === "production") {
 		const filePath = path.resolve(__dirname, "../client", "index.html");
 
 		// replace any placeholders in index.html
-		fs.readFile(filePath, 'utf8', function (err, data) {
+		fs.readFile(filePath, "utf8", function(err, data) {
 			if (err) {
 				return console.log(err);
 			}
