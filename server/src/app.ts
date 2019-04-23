@@ -1,3 +1,4 @@
+import newrelic from "./newrelic-loader";
 import * as express from "express";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
@@ -13,6 +14,7 @@ const path = require("path");
 const environment = process.env["NODE_ENV"];
 
 const app: express.Application = express();
+
 
 // include mustache template engine
 app.engine("mst", mustacheExpress());
@@ -49,7 +51,21 @@ if (environment === "production") {
 
 	// send unhandled URLs to index.html so that react router can handle them
 	app.get("/*", function(req: express.Request, res: express.Response) {
-		res.sendFile(path.join(clientDir, "index.html"));
+		const filePath = path.resolve(__dirname, "../client", "index.html");
+
+		// replace any placeholders in index.html
+		fs.readFile(filePath, "utf8", function(err, data) {
+			if (err) {
+				return console.log(err);
+			}
+			if (process.env.NEWRELIC_LICENSE && newrelic) {
+				const result = data.replace(/<meta name="__NEW_RELIC_SCRIPT__">/g, newrelic.getBrowserTimingHeader());
+				res.send(result);
+			} else {
+				res.send(data);
+			}
+
+		});
 	});
 }
 
