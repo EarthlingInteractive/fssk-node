@@ -2,7 +2,7 @@ version: 2
 jobs:
   test_client:
     docker:
-      - image: circleci/node:8.11.2
+      - image: circleci/node:10
     working_directory: ~/fssk-node
     steps:
       - checkout
@@ -35,7 +35,7 @@ jobs:
           path: ./client/build/spec
   build_client:
     docker:
-      - image: circleci/node:8.11.2
+      - image: circleci/node:10
     working_directory: ~/fssk-node
     steps:
       - checkout
@@ -58,7 +58,7 @@ jobs:
           command: npm run build
   test_server:
     docker:
-      - image: circleci/node:8.11.2
+      - image: circleci/node:10
         environment:
         - DBHOST=localhost
         - PGUSER=ubuntu

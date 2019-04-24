@@ -48,6 +48,7 @@ COPY --from=client-builder /opt/src/build /opt/client
 COPY --from=server-builder /opt/src/build /opt/server
 COPY --from=server-builder /opt/src/node_modules /opt/server/node_modules
 COPY --from=server-builder /opt/src/package.json /opt/src/package-lock.json /opt/server/
+COPY --from=server-builder /opt/src/newrelic.js /opt/server/
 COPY --from=server-builder /opt/src/src/bin /opt/server/bin
 COPY --from=server-builder /opt/src/src/views /opt/server/views
 
