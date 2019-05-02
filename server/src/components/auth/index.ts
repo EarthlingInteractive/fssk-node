@@ -34,7 +34,7 @@ export default class AuthController {
 		// check in DB if a user with email exists or not
 		usersController.getUserByEmail(email)
 		.then((user) => {
-			if (!user || user.get('activated') === false) {
+			if (!user) {
 				return done(null, false);
 			}
 
