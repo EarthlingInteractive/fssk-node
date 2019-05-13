@@ -2,10 +2,20 @@ import * as express from "express";
 import {adminAuthMiddleware, authMiddleware} from "../auth";
 import UsersController from "./index";
 import TodosController from "../todos/index";
+import Database from "../../database";
+import * as ExpressBrute from "express-brute";
+import * as BruteKnex from "brute-knex";
+import * as Passport from "passport";
 
 const router = express.Router();
 const usersController = new UsersController();
 const todosController = new TodosController();
+
+const store = new BruteKnex({
+	createTable: true,
+	knex: Database.knex,
+});
+const bruteforce = new ExpressBrute(store, { freeRetries: 2, minWait: 300000 });
 
 // only admin users may access this route
 router.get("/", adminAuthMiddleware, (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -41,6 +51,28 @@ router.get("/:id/todos", authMiddleware, (req: any, res: express.Response, next:
 router.post("/register", (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	return usersController.createUser(req.body)
 		.then((user) => res.json(user ? user.toJSON() : {}))
+		.catch((err: Error) => next(err));
+});
+
+router.get("/resend-activation/:email", bruteforce.prevent,
+	(req: express.Request, res: express.Response, next: express.NextFunction) => {
+	return usersController.resendActivationEmail(req.params.email)
+		.then((user) => res.json(user ? user.toJSON() : {}))
+		.catch((err: Error) => next(err));
+});
+
+router.get("/activate/:token", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	return usersController.activateUser(req.params.token)
+		.then((activationResults) => {
+			if (activationResults && activationResults.isValid && activationResults.user) {
+				req.login(activationResults.user, function(err) {
+					if (err) { return next(err); }
+					res.json(activationResults);
+				});
+			} else {
+				res.json({isValid: false});
+			}
+		})
 		.catch((err: Error) => next(err));
 });
 
