@@ -13,7 +13,7 @@ const todosController = new TodosController();
 
 const store = new BruteKnex({
 	createTable: true,
-	knex: Database.knex
+	knex: Database.knex,
 });
 const bruteforce = new ExpressBrute(store, { freeRetries: 2, minWait: 300000 });
 
@@ -54,7 +54,8 @@ router.post("/register", (req: express.Request, res: express.Response, next: exp
 		.catch((err: Error) => next(err));
 });
 
-router.get("/resend-activation/:email", bruteforce.prevent, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.get("/resend-activation/:email", bruteforce.prevent,
+	(req: express.Request, res: express.Response, next: express.NextFunction) => {
 	return usersController.resendActivationEmail(req.params.email)
 		.then((user) => res.json(user ? user.toJSON() : {}))
 		.catch((err: Error) => next(err));

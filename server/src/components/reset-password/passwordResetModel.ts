@@ -5,7 +5,7 @@ export default class PasswordResetModel extends BaseModel {
 	get tableName() { return "passwordreset"; }
 	get idAttribute() { return "tokenhash"; }
 	get hasTimestamps() { return true; }
-	user() {
+	public user() {
 		return this.hasOne(UserModel);
 	}
 }

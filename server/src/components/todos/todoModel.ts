@@ -5,7 +5,7 @@ export default class TodoModel extends BaseModel {
 	get tableName() { return "todos"; }
 	get idAttribute() { return "id"; }
 	get hasTimestamps() { return true; }
-	user() {
+	public user() {
 		return this.hasOne(UserModel);
 	}
 }

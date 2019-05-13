@@ -22,7 +22,7 @@ router.post("/", (req: any, res: express.Response, next: express.NextFunction) =
 	Passport.authenticate("login", (err, user) => {
 		if (err) { return next(err); }
 		if (!user) { return next(new Error("login failed")); }
-		if (user.get('activated') === false) {
+		if (user.get("activated") === false) {
 			return next(new Error("user not activated"));
 		}
 		req.logIn(user, (loginErr) => {

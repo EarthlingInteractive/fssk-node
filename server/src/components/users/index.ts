@@ -49,7 +49,7 @@ export default class UsersController {
 	public async getUserActivationByToken(token: string): Promise<UserActivationModel> {
 		const userActivation = await new UserActivationModel()
 			.where({token})
-			.fetch({withRelated: ['user']})
+			.fetch({withRelated: ["user"]})
 			.catch(handleDatabaseErrors);
 		return userActivation;
 	}
@@ -86,7 +86,7 @@ export default class UsersController {
 
 		const userActivation = await this.createUserActivation(user.id);
 
-		//send activation email
+		// send activation email
 		await this.sendActivationEmail(userActivation);
 
 		return user;
@@ -104,11 +104,11 @@ export default class UsersController {
 		if (!user) {
 			throw new Error("User does not exist");
 		}
-		if (user.get('activated') === true) {
+		if (user.get("activated") === true) {
 			throw new Error("User already activated");
 		}
 
-		//delete any existing activation tokens
+		// delete any existing activation tokens
 		const oldUserActivation = await new UserActivationModel()
 			.where({user_id : user.id})
 			.destroy({require: false})
@@ -126,16 +126,16 @@ export default class UsersController {
 			throw new Error("Token is not valid");
 		}
 
-		const user = userActivation.related('user') as UserModel;
+		const user = userActivation.related("user") as UserModel;
 		if (!user) {
 			throw new Error("Token is not valid");
 		}
 
-		if (user.get('activated') === true) {
+		if (user.get("activated") === true) {
 			throw new Error("User already activated");
 		}
 
-		const isExpired = moment(userActivation.get('created_at')).isBefore(moment().subtract(24, 'hours'));
+		const isExpired = moment(userActivation.get("created_at")).isBefore(moment().subtract(24, "hours"));
 		if (isExpired) {
 			throw new Error("Activation token has expired");
 		}
@@ -148,7 +148,7 @@ export default class UsersController {
 		return {
 			isValid: true,
 			user,
-			userActivation
+			userActivation,
 		};
 	}
 
@@ -157,7 +157,7 @@ export default class UsersController {
 		const template = await readFile(`${__dirname}/../../views/emails/activation-email-html.mst`, "utf8");
 		const websiteName = process.env["WEBSITE_NAME"] || "FSSK";
 
-		const user = await this.getUser(userActivation.get('user_id'));
+		const user = await this.getUser(userActivation.get("user_id"));
 
 		// Render our reset password template
 		let output;
